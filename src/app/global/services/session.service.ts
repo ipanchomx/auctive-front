@@ -32,10 +32,4 @@ export class SessionService {
     }).toPromise();
   }
 
-
-  googleLogin(id:string):Promise<any> {
-    const url = `${environment.apiUrl}users/login/google`;
-    return this.httpClient.post(url, {id}).toPromise(); 
-  }
-
 }
