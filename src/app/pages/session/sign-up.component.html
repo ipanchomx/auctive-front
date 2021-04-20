@@ -1,0 +1,90 @@
+<div>
+
+  <div class="register">
+
+    <div class="login">
+  
+      <h1>Log In</h1>
+      <p>Sign in with your email and password</p>
+  
+  
+      <form class="loginForm" [formGroup]="loginForm" (submit)="iniciarSesion()">
+  
+        <mat-form-field class="emailInput">
+          <mat-label>Email</mat-label>
+          <input type="email" id="emailInput" matInput placeholder="Ex. pat@example.com" formControlName="email">
+        </mat-form-field>
+  
+        <br>
+  
+        <mat-form-field>
+          <mat-label>Password</mat-label> <input id="passwordInput" type="password" matInput  formControlName="password">
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="primary" id="loginButton">LOGIN</button>
+  
+      </form>
+  
+    </div>
+    
+    <div class="example-spacer">
+
+    </div>
+
+    <div class="signup">
+      <h1>Register</h1>
+      <p>Sign up with your email and password</p>
+  
+      <form class="singupForm" [formGroup]="signupForm" (submit)="crearUsuario()">
+  
+        <mat-form-field class="emailInput">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email">
+  
+          <mat-error *ngIf="signupForm.controls.email.errors">
+            Please enter a valid email address
+          </mat-error>
+  
+        </mat-form-field>
+  
+        <br>
+  
+        <mat-form-field>
+          <mat-label>Full Name</mat-label> <input matInput formControlName="name">
+          <mat-error *ngIf="signupForm.controls.name.errors">
+            Cannot leave name empty
+          </mat-error>
+        </mat-form-field>
+  
+        <br>
+  
+        <mat-form-field>
+          <mat-label>Password</mat-label> <input type="password" matInput formControlName="password">
+          <mat-error *ngIf="signupForm.controls.password.errors">
+            Password length must be more than 6 characters.
+          </mat-error>
+        </mat-form-field>
+  
+        <br>
+  
+        <mat-form-field>
+          <mat-label>Confirm password</mat-label> <input type="password" matInput formControlName="confirm">
+        </mat-form-field>
+  
+        <mat-error *ngIf="signupForm.errors && signupForm.errors.mismatch">
+          Passwords do not match.
+        </mat-error>
+  
+        <br>
+  
+        <button mat-raised-button color="accent">SIGN UP</button>
+  
+  
+  
+      </form>
+    </div>
+  
+  </div>
+  
+
+</div>

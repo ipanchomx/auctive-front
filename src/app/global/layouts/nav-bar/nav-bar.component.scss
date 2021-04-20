@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+.mat-logo-div {
+  display: flex;
+  align-items: center;
+  font-family: 'Cairo', sans-serif;
+  #nav-title {
+    font-size: 1.5rem;
+
+  }
+  img{
+    width: 50px;
+  }
+}
+
+mat-nav-list {
+  padding: 0 !important;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  background: #f2f2f2;
+}

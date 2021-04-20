@@ -33,3 +33,5 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span').textContent).toContain('auctive-front app is running!');
   });
 });
+
+

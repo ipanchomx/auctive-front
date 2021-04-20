@@ -1,0 +1,30 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <div class="mat-logo-div">
+            <img class="mat-logo" src="https://banner2.cleanpng.com/20190629/uzk/kisspng-computer-icons-money-android-application-package-f-5d1710da05f5f7.3131392415617927300244.jpg" alt="logo">
+            <mat-nav-list class="no-padding">
+                <a mat-list-item routerLink="" id="nav-title">Auctive</a>
+            </mat-nav-list>
+        </div>
+        <span class="example-spacer"></span>
+
+        <mat-nav-list *ngIf='isLoggedIn'>
+            <a mat-icon-button class="icon-big"  routerLink="file-manager">
+                <mat-icon>home</mat-icon>
+            </a>
+            <a mat-icon-button class="icon-big"  routerLink="settings">
+                <mat-icon>settings</mat-icon>
+            </a>
+            <a mat-icon-button class="icon-big">
+                <mat-icon matBadge="{{noSize}}" [matBadgeHidden]="noSize===0" matBadgeSize="small" matBadgeColor="warn"  (click)="openNotifications()">notifications</mat-icon>
+            </a>
+
+            <a mat-button (click)='logout()'>Log Out</a>
+        </mat-nav-list>
+        
+        <mat-nav-list *ngIf='!isLoggedIn' >
+            <a mat-button routerLink="sign-up">Sign Up / Log In</a>
+        </mat-nav-list>    
+
+    </mat-toolbar-row>
+</mat-toolbar>
