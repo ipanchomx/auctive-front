@@ -12,13 +12,13 @@ export class SocketsService {
 
   socketStatus:BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  connect(token, userId) {
+  connect(token:string, email:string) {
     this.socketClient = socketIo.io(environment.socketUrl, {
       transportOptions: {
         polling: {
           extraHeaders: {
             'Authorization': token,
-            'UserId': userId
+            'user-email': email
           }
         }
       }
@@ -27,11 +27,11 @@ export class SocketsService {
     this.socketStatus.next(true);
   }
 
-  on(eventName, callback) {
+  on(eventName:string, callback:Function) {
     this.socketClient.on(eventName, callback);
   }
 
-  emit(eventName, data) {
+  emit(eventName:string, data:Object) {
     this.socketClient.emit(eventName, data);
   }
 
