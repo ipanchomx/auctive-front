@@ -42,25 +42,6 @@ export class SignUpComponent implements OnInit {
       password: ['', [Validators.required]]
     });
 
-    // this.googleAuth.authState.subscribe((user) => {
-    //   if (!user) {
-    //     return;
-    //   }
-    //   this.sessionService.googleLogin(user.idToken).then(data => {
-    //     this.authService.saveUserId(data.userId);
-    //     this.authService.save(data.token)
-    //     this._socket.connect(this.authService.get(), this.authService.getUserId());
-    //     this.router.navigate(["/file-manager"])
-    //   }).catch(err => {
-    //     const snack = this._snackBar.open(`Unable to login - ${err.error.message}`, "Close", {
-    //       horizontalPosition: this.horizontalPosition,
-    //       verticalPosition: this.verticalPosition,
-    //     })
-    //     snack._dismissAfter(3000);
-    //     console.log(err);
-
-    //   })
-    // });
     this.renderer.setStyle(this.el.nativeElement.ownerDocument.body,'backgroundColor', '#3f598f');
 
   }

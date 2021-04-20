@@ -11,7 +11,6 @@ export interface notification {
   fileName: string;
 }
 import { SessionService } from '../../services/session.service';
-// import { SocialAuthService } from 'angularx-social-login';
 import { SocketsService } from '../../services/sockets.service';
 import { UserService } from '../../services/user.service';
 
@@ -31,7 +30,6 @@ export class NavBarComponent implements OnInit {
     private router: Router,
     private _matDialog: MatDialog,
     private sessionService: SessionService,
-    // private googleAuthService: SocialAuthService,
     private socketsService: SocketsService,
     private userService: UserService
   ) {
@@ -52,14 +50,14 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (this.authService.isLoggedIn()) {
-    //   this.userService.getUserInfo(this.authService.getUserId())
-    //   .then(user =>{
-    //     if(user){}
-    //     this.name = user.user.name;
-    //   })
+    if (this.authService.isLoggedIn()) {
+      // this.userService.getUserInfo(this.authService.getUserId())
+      // .then(user =>{
+      //   if(user){}
+      //   this.name = user.user.name;
+      // })
       
-    // }
+    }
 
   }
 
