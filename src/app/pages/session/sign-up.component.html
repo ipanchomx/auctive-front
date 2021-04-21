@@ -8,7 +8,7 @@
       <p class="form-info">Sign in with your email and password</p>
   
   
-      <form class="loginForm" [formGroup]="loginForm" (submit)="iniciarSesion()">
+      <form class="loginForm" [formGroup]="loginForm" (submit)="login()">
   
         <mat-form-field class="emailInput">
           <mat-label>Email</mat-label>
@@ -31,7 +31,7 @@
       <h1>Register</h1>
       <p class="form-info">Sign up with your email and password</p>
   
-      <form class="singupForm" [formGroup]="signupForm" (submit)="crearUsuario()">
+      <form class="singupForm" [formGroup]="signupForm" (submit)="createUser()">
   
         <mat-form-field class="emailInput">
           <mat-label>Email</mat-label>

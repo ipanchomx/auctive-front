@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm: ['', [Validators.required, Validators.minLength(6)]]
     }, {
-      validators: this.compararPasswords.bind(this)
+      validators: this.comparePasswords.bind(this)
     });
 
     this.loginForm = this.formBuilder.group({
@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  crearUsuario() {
+  createUser() {
     if (this.signupForm.valid) {
       this.sessionService.signup(this.signupForm.getRawValue()).then(data => {
         const snack = this._snackBar.open("User successfully created", "Close", {
@@ -58,7 +58,7 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  compararPasswords() {
+  comparePasswords() {
     if (!this.signupForm) { return null; }
     const values = this.signupForm.getRawValue();
     if (values.password === values.confirm) {
@@ -69,34 +69,23 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  iniciarSesion() {
+  login() {
     if (this.loginForm.valid) {
       this.sessionService.login(this.loginForm.getRawValue()).then(data => {
         this.authService.saveUserId(data.userId);
         this.authService.save(data.token)
         this._socket.connect(this.authService.get(), this.authService.getUserId());
-        this.router.navigate(["/file-manager"])
+        this.router.navigate(["/home"])
       }).catch(err => {
+        console.log(err);
 
         const snack = this._snackBar.open(`Unable to login - ${err.error.message}`, "Close", {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         })
         snack._dismissAfter(3000);
-        console.log(err);
       })
     }
   }
-
-  // signInWithGoogle(): void {
-  //   this.googleAuth.signIn(GoogleLoginProvider.PROVIDER_ID)
-  //   .catch(err => {
-  //     const snack = this._snackBar.open(`Unable to login to Google`, "Close", {
-  //       horizontalPosition: this.horizontalPosition,
-  //       verticalPosition: this.verticalPosition,
-  //     })
-  //     snack._dismissAfter(3000);
-  //   })
-  // }
 
 }
