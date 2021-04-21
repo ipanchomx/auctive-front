@@ -64,6 +64,24 @@ export class UserService {
 
   }
 
+  createVerificationRequest(image: ImageAsset) {
+    const url = `${environment.ibmApiUrl}/user/profile-pic`;
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': "application/json",
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.post(url, {
+      image: {
+        image: image.src,
+        mime: image.file.type,
+      }
+    }, {
+      headers: httpHeaders,
+    }).toPromise();    
+
+  }
+
   changePhoneNumber(newPhone):Promise<any>{
     const url = `${environment.apiUrl}/users/update-phone`
     const httpHeaders = new HttpHeaders({

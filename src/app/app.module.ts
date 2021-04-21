@@ -17,6 +17,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuctionsComponent } from './pages/auctions/auctions.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ChangePhotoFormComponent } from './dialogs/change-photo-form/change-photo-form.component';
+import { CreateVerificationFormComponent } from './dialogs/create-verification-form/create-verification-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ChangePhotoFormComponent } from './dialogs/change-photo-form/change-pho
     HomeComponent,
     AuctionsComponent,
     SettingsComponent,
-    ChangePhotoFormComponent
+    ChangePhotoFormComponent,
+    CreateVerificationFormComponent
   ],
   imports: [
     BrowserModule,
