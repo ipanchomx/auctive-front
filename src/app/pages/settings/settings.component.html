@@ -9,9 +9,12 @@
             <div class="background"></div>
         </div>
         <div class="userInfo">
-            <input type="text" [(ngModel)]="name" [disabled]="!editableName" class="profile-name">
+            <h1 id="name">{{name}}</h1>
             <p>{{email}}</p>
             <p class="member-since">Joined on {{joined}}</p>
+            <input type="text" [(ngModel)]="phone" [disabled]="!editablePhone" class="phone" placeholder="phone number">
+            <button (click)="toggleEditablePhone()" id="togglePhone">{{editablePhone? "Save": "Edit phone"}}</button>
+            <p *ngIf="phoneError" class="error name-error">Error. Cannot leave phone field empty</p>
         </div>
     </div>
     <p *ngIf="nameError" class="error name-error">Error. Cannot leave name field empty</p>

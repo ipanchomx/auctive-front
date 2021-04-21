@@ -21,7 +21,7 @@
     .profileInfoContainer {
         width: 70%;
         margin: 0 auto;
-        height: 200px;
+        height: 225px;
         padding: 30px 25px;
         display: flex;
         justify-content: space-between;
@@ -48,8 +48,9 @@
         }
 
     
-        .profile-name {
-            font-size: 24px;
+        .phone {
+            font-size: 18px;
+            width: 175px;
             font-weight: 500;
             padding: 10px 5px;
             border: 1px solid #e6e6e6;
@@ -137,4 +138,15 @@ mat-form-field {
     }
 
 
+}
+
+#name {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+#togglePhone {
+    width: auto;
+    height: 50px;
+    margin-left: 10px;
 }

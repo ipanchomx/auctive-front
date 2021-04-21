@@ -26,12 +26,14 @@ export class SettingsComponent implements OnInit {
   editableName: boolean = false;
   nameError: boolean = false;
   name: string;
-  darkMode: boolean = false;
+  phone: string;
   email: string;
   joined: string;
   image: string;
   usrId: string;
   showForm = true;
+  editablePhone: boolean = false;
+  phoneError: boolean = false;
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
@@ -137,8 +139,36 @@ export class SettingsComponent implements OnInit {
       this.email = data.user.email;
       this.joined = new Date(data.user.joined).toLocaleDateString();
       this.image = data.user.image_url || "/assets/images/default-profile-pic.jpg";
+      this.phone = data.user.phone_number;
     })
   }
 
-
+  toggleEditablePhone(): void {
+    if (this.editablePhone) {
+      if (!this.phone) {
+        this.phoneError = true
+        return
+      } else {
+        this.phoneError = false;
+        this._user.changePhoneNumber(this.phone)
+          .then(msg => {
+            console.log(msg);
+            const snack = this._snackBar.open(msg.message, "Close", {
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            })
+            snack._dismissAfter(3000);
+          })
+          .catch(err => {
+            console.log(err);
+            const snack = this._snackBar.open(err.error.message, "Close", {
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            })
+            snack._dismissAfter(3000);
+          })
+      }
+    }
+    this.editablePhone = !this.editablePhone;
+  }
 }
