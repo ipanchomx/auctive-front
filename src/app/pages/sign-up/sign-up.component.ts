@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SessionService } from 'src/app/global/services/session.service';
 import {
@@ -19,7 +19,7 @@ import { SocketsService } from 'src/app/global/services/sockets.service';
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   loginForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private sessionService: SessionService, private _snackBar: MatSnackBar, private authService: AuthService, private router: Router, private _socket: SocketsService,     private renderer: Renderer2,     private el: ElementRef,
+  constructor(private formBuilder: FormBuilder, private sessionService: SessionService, private _snackBar: MatSnackBar, private authService: AuthService, private router: Router, private _socket: SocketsService
 
     ) { }
 
@@ -72,10 +72,10 @@ export class SignUpComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       this.sessionService.login(this.loginForm.getRawValue()).then(data => {
-        this.authService.saveUserId(data.userId);
+        this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
-        this._socket.connect(this.authService.get(), this.authService.getUserId());
-        this.router.navigate(["/home"])
+        // this._socket.connect(this.authService.get(), this.authService.getUserId());
+        this.router.navigate(["/auctions"])
       }).catch(err => {
         console.log(err);
 
