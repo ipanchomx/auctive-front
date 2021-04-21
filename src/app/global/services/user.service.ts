@@ -74,4 +74,16 @@ export class UserService {
       reportProgress: true
     }).toPromise();
   }
+
+
+  activateSMSNotifications() {
+    const url = `${environment.apiUrl}/users/enable-notifications`
+    const httpHeaders = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+    return this.httpClient.put(url, {}, {
+      headers: httpHeaders,
+      reportProgress: true
+    }).toPromise();
+  }
 }
