@@ -64,4 +64,14 @@ export class UserService {
 
   }
 
+  changePhoneNumber(newPhone):Promise<any>{
+    const url = `${environment.apiUrl}/users/update-phone`
+    const httpHeaders = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+    return this.httpClient.put(url, {phoneNumber: newPhone}, {
+      headers: httpHeaders,
+      reportProgress: true
+    }).toPromise();
+  }
 }
