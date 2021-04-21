@@ -17,14 +17,14 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    height: 85%;
+    height: 100%;
     
     .header-backdrop {
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        height: 100%;
+        height: 85%;
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(1px);
         -webkit-backdrop-filter: blur(1px);
@@ -46,29 +46,23 @@
     
     }
 
-    .astro{
-        position: relative;
-        img{
-            float: right;
-            float: top;
-            width: 400px;
-        }
-    }
-
 }
 
 .mat-raised-button {
-    height: 50px;
-    width: 150px;
-    font-size: 18px;
+    height: 60px;
+    width: 180px;
+    font-weight: 400;
+    font-size: 24px;
 }
 
 .gradient {
-    background: linear-gradient(to bottom, #ffffff 0%, #d8d8db 100%);
-    padding: 5vh 13vw 0ch;
+    padding: 5vh 3vw 0ch;
     font-family: 'Ubuntu', sans-serif;
-    font-size: 30px;
-    font-weight: 50;
+    background-color: rgba(124, 124, 124, 0.3);
+    backdrop-filter: blur(5px);
+    color: #383838;
+    font-size: 36px;
+    font-weight: 400;
     box-sizing: border-box;
     height: 15%;
   }
