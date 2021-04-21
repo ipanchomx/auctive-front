@@ -150,3 +150,22 @@ mat-form-field {
     height: 50px;
     margin-left: 10px;
 }
+
+
+.verified {
+    color: green;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 0;
+    width: 70%;
+    p {
+        margin-left: 5px;
+        margin-bottom: 0;
+    }
+}
+
+h2 {
+    font-size: 26px;
+}

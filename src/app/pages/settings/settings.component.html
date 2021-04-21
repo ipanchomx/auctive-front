@@ -1,5 +1,5 @@
 <div class="settings-container">
-    <h1>Settings</h1>
+    <h1 style="font-size: 36px;">Settings</h1>
 
     <h2>My Profile</h2>
     <div class="profileInfoContainer">
@@ -19,6 +19,19 @@
     </div>
     <p *ngIf="nameError" class="error name-error">Error. Cannot leave name field empty</p>
 
+    <h2>SMS Notifications</h2>
+    
+    <div *ngIf="is_verified" class="verified">
+        <mat-icon>check_circle</mat-icon>
+        <p>     
+            SMS Activated!
+        </p>
+    </div>
+
+    <div *ngIf="!is_verified">
+        <button [disabled] = "editablePhone" (click)="activateSMSNotifications()">Activate SMS notifications</button>
+
+    </div>
 
     <h2>Change Password</h2>
 

@@ -34,6 +34,7 @@ export class SettingsComponent implements OnInit {
   showForm = true;
   editablePhone: boolean = false;
   phoneError: boolean = false;
+  is_verified: boolean = false;
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
@@ -140,6 +141,7 @@ export class SettingsComponent implements OnInit {
       this.joined = new Date(data.user.joined).toLocaleDateString();
       this.image = data.user.image_url || "/assets/images/default-profile-pic.jpg";
       this.phone = data.user.phone_number;
+      this.is_verified = data.user.is_verified;
     })
   }
 
@@ -166,9 +168,33 @@ export class SettingsComponent implements OnInit {
               verticalPosition: this.verticalPosition,
             })
             snack._dismissAfter(3000);
+            this.phone = undefined;
           })
       }
     }
     this.editablePhone = !this.editablePhone;
+  }
+
+
+  activateSMSNotifications() {
+    if(this.phone) {
+      this._user.activateSMSNotifications()
+      .then((res:any) => {
+        this.is_verified = true;
+        const snack = this._snackBar.open(res.data.message, "Close", {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        })
+        snack._dismissAfter(3000);
+      })
+      .catch(err => {
+        const snack = this._snackBar.open(err.error.message, "Close", {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        })
+        snack._dismissAfter(3000);
+      })
+
+    }
   }
 }
