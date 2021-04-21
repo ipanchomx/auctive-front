@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from "./../../../environments/environment"
 import { AuthService } from './auth.service';
+import { ImageAsset } from '../models/image-asset.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,36 +24,45 @@ export class UserService {
   //   });
   // }
 
-  // getUserInfo(id:string):Promise<any> {
-  //   const url = `${environment.apiUrl}users/getProfileInfo`;
-  //   const httpHeaders = new HttpHeaders({
-  //     Authorization: this._authService.get()
-  //   });
+  getUserInfo(id:string):Promise<any> {
+    const url = `${environment.apiUrl}/users/user/`;
+    const httpHeaders = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
 
-  //   return this.httpClient.get(url, {
-  //     headers: httpHeaders
-  //   }).toPromise();
-  // }
+    return this.httpClient.get(url, {
+      headers: httpHeaders
+    }).toPromise();
+  }
 
-  // changePassword(obj):Promise<any> {
-  //   const httpHeaders = new HttpHeaders({
-  //     Authorization: this._authService.get()
-  //   });
-  //   const url = `${environment.apiUrl}users/changePassword`;
-  //   return this.httpClient.post(url, obj, {
-  //     headers: httpHeaders
-  //   }).toPromise();
-  // }
+  changePassword(obj):Promise<any> {
+    const httpHeaders = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+    const url = `${environment.apiUrl}/users/change-password`;
+    return this.httpClient.post(url, obj, {
+      headers: httpHeaders
+    }).toPromise();
 
-  // changePhoto(data: any) {
-  //   const url = `${environment.apiUrl}users/profile-pic`;
-  //   const httpHeaders = new HttpHeaders({
-  //     Authorization: this._authService.get()
-  //   });
-  //   return this.httpClient.put(url, data, {
-  //     headers: httpHeaders
-  //   });
-  // }
+  }
+
+  changePhoto(image: ImageAsset) {
+    const url = `${environment.apiUrl}/user/profile-pic`;
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': "application/json",
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.put(url, {
+      image: {
+        image: image.src,
+        mime: image.file.type,
+      }
+    }, {
+      headers: httpHeaders,
+    }).toPromise();    
+
+  }
 
 
   // changeName(newName):Promise<any>{
