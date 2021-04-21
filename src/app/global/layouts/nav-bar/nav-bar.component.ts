@@ -22,8 +22,8 @@ import { UserService } from '../../services/user.service';
 export class NavBarComponent implements OnInit {
   isLoggedIn: boolean = false;
 
-  name: string= "";
-  
+  name: string = "";
+
   noSize = 0;
 
   constructor(private authService: AuthService,
@@ -38,13 +38,13 @@ export class NavBarComponent implements OnInit {
       this.isLoggedIn = status;
     });
 
-    this.socketsService.socketStatus.subscribe(status=> {
-      if(status){
+    this.socketsService.socketStatus.subscribe(status => {
+      if (status) {
         this.socketsService.on('notification', (data) => {
           this.noSize += 1;
         })
       }
-    }) 
+    })
 
 
   }
@@ -56,24 +56,15 @@ export class NavBarComponent implements OnInit {
       //   if(user){}
       //   this.name = user.user.name;
       // })
-      
+
     }
 
   }
 
   logout() {
-    this.sessionService.logout()
-      .then((res) => {
-        this.socketsService.disconnect();
-        this.authService.clear();
-        // return this.googleAuthService.signOut(true);
-      })
-      .then((res) => {
-        this.router.navigate(['/home']);
-      })
-      .catch(err => {
-        this.router.navigate(['/home']);
-      })
+    // this.socketsService.disconnect();
+    this.authService.clear();
+    this.router.navigate(['/home']);
   }
 
   // openNotifications() {

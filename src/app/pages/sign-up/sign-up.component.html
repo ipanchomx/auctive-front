@@ -16,7 +16,7 @@
         </mat-form-field>
   
         <mat-form-field>
-          <mat-label>Password</mat-label> <input id="passwordInput" type="password" matInput  formControlName="password">
+          <mat-label>Password</mat-label> <input id="passwordInput" type="password" matInput  autocomplete="false" formControlName="password">
         </mat-form-field>
 
         <button mat-raised-button color="primary" id="loginButton">LOGIN</button>
@@ -55,7 +55,7 @@
 
   
         <mat-form-field>
-          <mat-label>Password</mat-label> <input type="password" matInput formControlName="password">
+          <mat-label>Password</mat-label> <input autocomplete="false" type="password" matInput formControlName="password">
           <mat-error *ngIf="signupForm.controls.password.errors">
             Password length must be more than 6 characters.
           </mat-error>
@@ -64,7 +64,7 @@
 
   
         <mat-form-field>
-          <mat-label>Confirm password</mat-label> <input type="password" matInput formControlName="confirm">
+          <mat-label>Confirm password</mat-label> <input autocomplete="false" type="password" matInput formControlName="confirm">
         </mat-form-field>
   
         <mat-error *ngIf="signupForm.errors && signupForm.errors.mismatch">

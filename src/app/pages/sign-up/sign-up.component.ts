@@ -52,7 +52,11 @@ export class SignUpComponent implements OnInit {
         })
         snack._dismissAfter(3000);
       }).catch(err => {
-        console.error('Failed to signup user', err);
+        console.error('Failed to sign user up ', err);
+        const snack = this._snackBar.open(`Unable to sign up - ${err.error.message}`, "Close", {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        })
       });
     }
   }
