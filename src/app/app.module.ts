@@ -14,13 +14,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { NavBarComponent } from './global/layouts/nav-bar/nav-bar.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AuctionsComponent } from './pages/auctions/auctions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    AuctionsComponent
   ],
   imports: [
     BrowserModule,
