@@ -1,0 +1,24 @@
+<div class="nContainer">
+  
+
+  <div class="bContainer"> 
+    <button mat-mini-fab color="warn" (click)="onClose()">X</button>
+  </div>
+  
+  <h1 mat-dialog-title matInput>Hi {{data.name}}</h1>
+  <mat-icon (click)="deleteAllNotifications()" style="cursor: pointer; float: right;">delete</mat-icon>
+  <p mat-dialog-title matInput>These are your notifications</p>
+  <div mat-dialog-content>
+      <div *ngFor="let notification of notifications">
+        <mat-card (click)="deleteThisNotification(notification)">
+          <p><strong>{{notification.emitterEmail}}</strong></p>
+          <mat-card-subtitle>{{notification.message}}</mat-card-subtitle>
+          <mat-card-content>{{notification.fileName}}</mat-card-content>
+          <mat-card-subtitle>{{(notification.date | date:'hh:mm - dd/MM/yyyy')}}</mat-card-subtitle>
+        </mat-card>
+        <mat-divider></mat-divider>
+      </div>
+  </div>
+</div>
+
+

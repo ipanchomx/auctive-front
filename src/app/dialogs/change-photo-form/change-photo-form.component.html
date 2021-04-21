@@ -1,0 +1,33 @@
+<div class="close-button">
+    <button class="btn-dialog-close" style="display: relative;" mat-stroked-button (click)="onClose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</div>
+
+<h1>Select an image</h1>
+
+<div
+    style="height: 95%; width: calc( 100% - 65px); display: flex; flex-direction: column; justify-content: space-between;">
+
+    <div>
+        <div *ngIf="inProgress" style="width: 100%; display: flex; align-items: center; flex-direction: column;">
+            <h1>Upload in progress</h1>
+            <mat-spinner></mat-spinner>
+        </div>
+        <form *ngIf="!inProgress" class="example-form">
+            <button mat-raised-button class="example-full-width" (click)="inputFile.click()" color="primary">
+                Select File to upload
+            </button>
+            <input #inputFile (change)="onFileChange($event)" style="display: none;" type="file" accept="image/*">
+
+            <mat-form-field class="example-full-width">
+                <mat-label>File Name </mat-label>
+                <input matInput name="filename" [(ngModel)]="fileName">
+            </mat-form-field>
+            <button mat-raised-button class='accept-button' color="primary" (click)="changePhoto()"
+                [disabled]="!fileName || !extension || !file">Accept</button>
+
+        </form>
+    </div>
+    
+</div>

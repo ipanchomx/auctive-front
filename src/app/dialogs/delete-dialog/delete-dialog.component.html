@@ -1,0 +1,16 @@
+<button class="btn-dialog-close" style="padding: 0; height: fit-content;" mat-button (click)="onClose()" tabIndex="-1">
+    <mat-icon>clear</mat-icon>
+</button>
+
+<h1>Confirm Delete</h1>
+
+<p>This delete is going to be permanent. Are you sure you want to delete whatever. Type <strong>{{name}}</strong> to confirm deletion.</p>
+
+<mat-form-field class="example-full-width" style="width: 100%;">
+    <mat-label>{{name}}</mat-label>
+    <input matInput (keyup)="compareValues()"[(ngModel)]="deleteInputName">
+</mat-form-field>
+
+<button mat-raised-button [disabled]="!isValid" color="warn" (click)="deleteElement()" tabIndex="-1">
+    Delete
+</button>
