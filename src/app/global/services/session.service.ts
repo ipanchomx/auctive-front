@@ -18,7 +18,7 @@ export class SessionService {
   }
 
   login(credentials:any):Promise<any> {
-    const url = `${environment.apiUrl}users/login`;
+    const url = `${environment.apiUrl}/users/login`;
     return this.httpClient.post(url, credentials).toPromise();
   }
 
