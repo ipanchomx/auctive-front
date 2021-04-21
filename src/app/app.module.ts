@@ -15,6 +15,8 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { NavBarComponent } from './global/layouts/nav-bar/nav-bar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuctionsComponent } from './pages/auctions/auctions.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { ChangePhotoFormComponent } from './dialogs/change-photo-form/change-photo-form.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AuctionsComponent } from './pages/auctions/auctions.component';
     SignUpComponent,
     NavBarComponent,
     HomeComponent,
-    AuctionsComponent
+    AuctionsComponent,
+    SettingsComponent,
+    ChangePhotoFormComponent
   ],
   imports: [
     BrowserModule,
