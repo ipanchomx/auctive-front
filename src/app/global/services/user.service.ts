@@ -64,28 +64,4 @@ export class UserService {
 
   }
 
-
-  // changeName(newName):Promise<any>{
-  //   const url = `${environment.apiUrl}users/changeName`
-  //   const httpHeaders = new HttpHeaders({
-  //     Authorization: this._authService.get()
-  //   });
-  //   return this.httpClient.put(url, {newName: newName}, {
-  //     headers: httpHeaders,
-  //     reportProgress: true
-  //   }).toPromise();
-  // }
-
-  // deleteUser() {
-  //   const httpHeaders = new HttpHeaders({
-  //     Authorization: this._authService.get()
-  //   });
-
-  //   const url = `${environment.apiUrl}users/`;
-
-  //   return this.httpClient.delete(url, {
-  //     headers: httpHeaders
-  //   });
-  // }
-
 }
