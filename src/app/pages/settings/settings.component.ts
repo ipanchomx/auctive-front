@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/global/services/auth.service';
 import {
   MatSnackBar,
@@ -14,6 +14,7 @@ import { ChangePhotoFormComponent } from 'src/app/dialogs/change-photo-form/chan
 import { SocketsService } from 'src/app/global/services/sockets.service';
 
 import { UserService } from 'src/app/global/services/user.service';
+import { CreateVerificationFormComponent } from 'src/app/dialogs/create-verification-form/create-verification-form.component';
 
 @Component({
   selector: 'app-settings',
@@ -21,7 +22,7 @@ import { UserService } from 'src/app/global/services/user.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-
+  //TODO: Create a model to have all user attributes.
   passwordForm: FormGroup;
   editableName: boolean = false;
   nameError: boolean = false;
@@ -35,19 +36,22 @@ export class SettingsComponent implements OnInit {
   editablePhone: boolean = false;
   phoneError: boolean = false;
   is_verified: boolean = false;
+  pending_verification: boolean = false;
+  notifications_enabled: boolean = false;
+  isLoading:boolean =  true;
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private authService: AuthService, 
-    private _snackBar: MatSnackBar, 
-    private router: Router, 
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
+    private router: Router,
     private socketsService: SocketsService,
     private _matDialog: MatDialog,
     private _user: UserService
-    ) { }
+  ) { }
 
 
   ngOnInit(): void {
@@ -74,23 +78,23 @@ export class SettingsComponent implements OnInit {
       };
 
       this._user.changePassword(obj)
-      .then(msg => {
-        const snack = this._snackBar.open(msg.message, "Close", {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
+        .then(msg => {
+          const snack = this._snackBar.open(msg.message, "Close", {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          })
+          snack._dismissAfter(3000);
+          this.passwordForm.reset();
+          this.showForm = false;
+          setTimeout(() => this.showForm = true, 250);
         })
-        snack._dismissAfter(3000);
-        this.passwordForm.reset();
-        this.showForm = false;
-        setTimeout(() => this.showForm = true, 250);
-      })
-      .catch(err => {
-        const snack = this._snackBar.open(err.error.message, "Close", {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
+        .catch(err => {
+          const snack = this._snackBar.open(err.error.message, "Close", {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          })
+          snack._dismissAfter(3000);
         })
-        snack._dismissAfter(3000);
-      })
 
     } else {
       const snack = this._snackBar.open("Invalid form", "Close", {
@@ -115,7 +119,6 @@ export class SettingsComponent implements OnInit {
   }
 
   changePhoto() {
-    // alert('Change photo');
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -135,13 +138,17 @@ export class SettingsComponent implements OnInit {
   }
 
   getUserInfo() {
+    this.isLoading = true;
     this._user.getUserInfo(this.usrId).then(data => {
       this.name = data.user.name;
       this.email = data.user.email;
       this.joined = new Date(data.user.joined).toLocaleDateString();
       this.image = data.user.image_url || "/assets/images/default-profile-pic.jpg";
       this.phone = data.user.phone_number;
-      this.is_verified = data.user.is_verified;
+      this.is_verified = !!data.user.is_verified;
+      this.notifications_enabled = !!data.user.notifications_enabled;
+      this.pending_verification = !!data.user.pending_verification;
+      this.isLoading = false;
     })
   }
 
@@ -177,24 +184,49 @@ export class SettingsComponent implements OnInit {
 
 
   activateSMSNotifications() {
-    if(this.phone) {
+    if (this.phone) {
       this._user.activateSMSNotifications()
-      .then((res:any) => {
-        this.is_verified = true;
-        const snack = this._snackBar.open(res.data.message, "Close", {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
+        .then((res: any) => {
+          this.notifications_enabled = true;
+          const snack = this._snackBar.open(res.data.message, "Close", {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          })
+          snack._dismissAfter(3000);
         })
-        snack._dismissAfter(3000);
+        .catch(err => {
+          const snack = this._snackBar.open(err.error.message, "Close", {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          })
+          snack._dismissAfter(3000);
+        });
+    } else {
+      const snack = this._snackBar.open("Cannot enable sms notifications. Please register phone.", "Close", {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
       })
-      .catch(err => {
-        const snack = this._snackBar.open(err.error.message, "Close", {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-        })
-        snack._dismissAfter(3000);
-      })
-
+      snack._dismissAfter(3000);
     }
   }
+
+  launchVerificationRequestDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = "300";
+    dialogConfig.width = "40%"
+    dialogConfig.minWidth = "360px";
+    dialogConfig.minHeight = "300px"
+    dialogConfig.data = {
+    }
+
+    const dialogRef = this._matDialog.open(CreateVerificationFormComponent, dialogConfig);
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        this.getUserInfo();
+      });
+  }
+
 }
