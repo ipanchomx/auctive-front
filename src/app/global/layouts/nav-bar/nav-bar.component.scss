@@ -1,15 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo&display=swap");
 
 .mat-logo-div {
   display: flex;
   align-items: center;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+
   #nav-title {
     font-size: 1.5rem;
-
+    padding: 0;
   }
-  img{
-    width: 50px;
+  img {
+    width: 40px;
   }
 }
 

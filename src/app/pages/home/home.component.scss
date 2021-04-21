@@ -1,0 +1,74 @@
+@import 'https://fonts.googleapis.com/css?family=Ubuntu:300, 400, 500, 700';
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+.homePage{
+    background-color: #120655;
+    background: linear-gradient( 145deg,#324877 0%, #664fe4 100%);
+    font-family: 'Ubuntu', sans-serif;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: calc( 100vh - 64px );
+    overflow: hidden;
+}
+
+.header {
+    background-image: url('/assets/images/home-bg.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 85%;
+    
+    .header-backdrop {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(1px);
+        -webkit-backdrop-filter: blur(1px);
+    }
+    .header-content {
+        width: 45%;
+        margin: auto;
+        h1{
+            font-family: 'Cairo', sans-serif;
+            font-size: 6vw;
+            padding-bottom: 3vh;
+        }
+        h3{
+            font-size: 1.5vw;
+        }
+        color: #FFF;
+        text-shadow: 1px 1px 1px #333;
+        text-align: center;
+    
+    }
+
+    .astro{
+        position: relative;
+        img{
+            float: right;
+            float: top;
+            width: 400px;
+        }
+    }
+
+}
+
+.mat-raised-button {
+    height: 50px;
+    width: 150px;
+    font-size: 18px;
+}
+
+.gradient {
+    background: linear-gradient(to bottom, #ffffff 0%, #d8d8db 100%);
+    padding: 5vh 13vw 0ch;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    font-weight: 50;
+    box-sizing: border-box;
+    height: 15%;
+  }

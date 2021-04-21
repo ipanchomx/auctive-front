@@ -41,9 +41,6 @@ export class SignUpComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-
-    this.renderer.setStyle(this.el.nativeElement.ownerDocument.body,'backgroundColor', '#3f598f');
-
   }
 
   crearUsuario() {
