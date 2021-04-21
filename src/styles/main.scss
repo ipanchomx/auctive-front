@@ -1,0 +1,118 @@
+@import 'partials/_breakpoints';
+@import 'partials/grid';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  font-family: 'Roboto', "Helvetica Neue", Helvetica, sans-serif;
+  background-color: #fff;
+}
+
+
+.blue-snackbar {
+  background-color: #2166F3;
+
+  mat-simple-snackbar-action {
+    color: red !important;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3 {
+  font-weight: 300;
+}
+
+button {
+  padding: 5px 15px;
+  user-select: none;
+  border: 1px solid #ececec;
+  background-color: #ececec;
+  padding: 0 1.6rem;
+  font-size: 0.9rem;
+  height: 3rem;
+  line-height: 3rem;
+  transition: all 0.2s ease-in-out;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:active {
+      outline: none;
+  }
+
+  &:focus {
+      outline: none;
+      
+  }
+
+  &:hover {
+      outline: none;
+      background: #dfdfdf;
+  }
+}
+
+$sub-color: grey;
+$main-color: black;
+
+@mixin shrinkLabel {
+  top: -14px;
+  font-size: 12px;
+  color: $main-color;
+}
+
+.group {
+  position: relative;
+  margin: 45px 0;
+
+  .form-input {
+    background: none;
+    background-color: white;
+    color: $sub-color;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $sub-color;
+    margin: 5px 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus ~ .form-input-label {
+      @include shrinkLabel();
+    }
+  }
+
+  input[type='password'] {
+    letter-spacing: 0.3em;
+  }
+
+  .form-input-label {
+    color: $sub-color;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 300ms ease all;
+
+    &.shrink {
+      @include shrinkLabel();
+    }
+  }
+}
+
+.btn-dialog-close {
+  float: right;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
