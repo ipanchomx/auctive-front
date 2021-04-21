@@ -1,0 +1,54 @@
+<div class="settings-container">
+    <h1>Settings</h1>
+
+    <h2>My Profile</h2>
+    <div class="profileInfoContainer">
+        <div class="dummyImage hoverable" (click)="changePhoto()">
+            <img mat-card-image src="{{image}}" alt="profile-pic">
+            <div class="hover-text">Choose file</div>
+            <div class="background"></div>
+        </div>
+        <div class="userInfo">
+            <input type="text" [(ngModel)]="name" [disabled]="!editableName" class="profile-name">
+            <p>{{email}}</p>
+            <p class="member-since">Joined on {{joined}}</p>
+        </div>
+    </div>
+    <p *ngIf="nameError" class="error name-error">Error. Cannot leave name field empty</p>
+
+
+    <h2>Change Password</h2>
+
+    <div class="change-password-container">
+        <form [formGroup]="passwordForm" (submit)="changePassword()" *ngIf="showForm">
+
+            <div class="">
+                <mat-form-field appearance="standard">
+                    <mat-label>Current password</mat-label>
+                    <input matInput type="password" class="form-input" name="currentPassword" formControlName="current">
+                </mat-form-field>
+            </div>
+
+            <div class="">
+                <mat-form-field appearance="standard">
+                    <mat-label>New password</mat-label>
+                    <input matInput type="password" class="form-input" name="currentPassword" formControlName="new">
+                </mat-form-field>
+            </div>
+
+            <div class="">
+                <mat-form-field appearance="standard">
+                    <mat-label>Confirm password</mat-label>
+                    <input matInput type="password" class="form-input" name="currentPassword" formControlName="confirm">
+                </mat-form-field>
+            </div>
+
+            <button>Change password</button>
+
+        </form>
+
+    </div>
+
+
+
+</div>
