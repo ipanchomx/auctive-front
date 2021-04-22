@@ -1,0 +1,22 @@
+
+<mat-drawer-container class="auctions-container">
+
+    <mat-drawer-content class="auctions-main">
+        <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
+        <div *ngIf="isLoading; else auctionsList" class="loading-div">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <ng-template #auctionsList>
+            <h1 *ngIf="auctions.length > 0">My Auction Subscriptions</h1>
+
+            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
+                [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
+            </app-auction-item>
+        </ng-template>
+    </mat-drawer-content>
+
+    <mat-drawer mode="side" opened class="sidebar-drawer">
+        <app-sidebar></app-sidebar>
+    </mat-drawer>
+</mat-drawer-container>

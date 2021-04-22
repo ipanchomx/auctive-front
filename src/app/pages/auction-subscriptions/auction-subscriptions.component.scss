@@ -1,0 +1,27 @@
+.auctions-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+}
+
+.sidebar-drawer {
+    width: 250px;
+}
+
+.loading-div{
+    margin: 50px auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.auctions-main {
+    width: calc(100% - 250px);
+    padding: 50px;
+    height: calc(100vh - 64px);
+}    
+
+
+
+h1 {
+    font-size: 38px;
+}

@@ -1,0 +1,46 @@
+import { Component, OnInit } from '@angular/core';
+import { Auction } from 'src/app/global/models/auction.model';
+import { AuctionsService } from 'src/app/global/services/auctions.service';
+
+@Component({
+  selector: 'app-auction-subscriptions',
+  templateUrl: './auction-subscriptions.component.html',
+  styleUrls: ['./auction-subscriptions.component.scss']
+})
+export class AuctionSubscriptionsComponent implements OnInit {
+
+  auctions: Array<Auction>;
+  isLoading: boolean = false;
+  errorMessage: String = '';
+  
+  constructor(
+    private auctionsService: AuctionsService
+  ) { }
+
+  ngOnInit(): void {
+    this.getMySubscriptionsAuctions();
+  }
+
+  getMySubscriptionsAuctions() {
+    this.isLoading = true;
+    this.auctionsService.getAuctionSubscriptions().then((resp:any) => {
+      let auctionIds = resp.auctions;
+      auctionIds = auctionIds.map((value:any) =>{
+        return `${value.auctionId}`
+      })
+
+      this.auctionsService.getAuctionsByList(auctionIds).then((auctionsList:any) => {
+        this.auctions = auctionsList.auctions;
+        this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
+        this.isLoading = false;
+        this.errorMessage = "";
+      })
+    }).catch(error => {
+      console.log(error);
+      this.auctions = [];
+      this.errorMessage = "Could not find auctions";
+      this.isLoading = false;
+    })
+  }
+
+}
