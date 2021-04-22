@@ -9,15 +9,15 @@
         <h2>My Profile</h2>
         <div class="profileInfoContainer">
             <div class="dummyImage hoverable" (click)="changePhoto()">
-                <img mat-card-image src="{{image}}" alt="profile-pic">
+                <img mat-card-image src="{{userInfo.image_url}}" alt="profile-pic">
                 <div class="hover-text">Choose file</div>
                 <div class="background"></div>
             </div>
             <div class="userInfo">
-                <h1 id="name">{{name}}</h1>
-                <p>{{email}}</p>
-                <p class="member-since">Joined on {{joined}}</p>
-                <input type="text" [(ngModel)]="phone" [disabled]="!editablePhone" class="phone"
+                <h1 id="name">{{userInfo.name}}</h1>
+                <p>{{userInfo.email}}</p>
+                <p class="member-since">Joined on  {{userInfo.joined | date: 'dd/MM/yyyy'}}</p>
+                <input type="text" [(ngModel)]="userInfo.phone_number" [disabled]="!editablePhone" class="phone"
                     placeholder="phone number">
                 <button (click)="toggleEditablePhone()" id="togglePhone">{{editablePhone? "Save": "Edit
                     phone"}}</button>
@@ -28,7 +28,7 @@
 
         <h2>SMS Notifications</h2>
 
-        <div *ngIf="notifications_enabled; else activateSMSbutton" class="icon-text verified">
+        <div *ngIf="userInfo.notifications_enabled; else activateSMSbutton" class="icon-text verified">
             <mat-icon>check_circle</mat-icon>
             <p>
                 SMS Activated!
@@ -36,7 +36,7 @@
         </div>
 
         <ng-template #activateSMSbutton>
-            <div *ngIf="!notifications_enabled">
+            <div *ngIf="!userInfo.notifications_enabled">
                 <button [disabled]="editablePhone" (click)="activateSMSNotifications()">
                     Activate SMS notifications
                 </button>
@@ -45,18 +45,18 @@
 
         <h2>Identity Verification</h2>
 
-        <div *ngIf="!is_verified && pending_verification" class="icon-text danger">
+        <div *ngIf="!userInfo.is_verified && userInfo.pending_verification" class="icon-text danger">
             <mat-icon>pending_actions</mat-icon>
             <p>
                 Waiting for verification...
             </p>
         </div>
 
-        <div *ngIf="!is_verified && !pending_verification">
+        <div *ngIf="!userInfo.is_verified && !userInfo.pending_verification">
             <button [disabled]="editablePhone" (click)="launchVerificationRequestDialog()">Verify my Identity</button>
         </div>
 
-        <div *ngIf="is_verified" class="icon-text verified">
+        <div *ngIf="userInfo.is_verified" class="icon-text verified">
             <mat-icon>check_circle</mat-icon>
             <p>
                 Identity verified!

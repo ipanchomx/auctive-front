@@ -15,6 +15,7 @@ import { SocketsService } from 'src/app/global/services/sockets.service';
 
 import { UserService } from 'src/app/global/services/user.service';
 import { CreateVerificationFormComponent } from 'src/app/dialogs/create-verification-form/create-verification-form.component';
+import { User } from 'src/app/global/models/user.model';
 
 @Component({
   selector: 'app-settings',
@@ -26,19 +27,14 @@ export class SettingsComponent implements OnInit {
   passwordForm: FormGroup;
   editableName: boolean = false;
   nameError: boolean = false;
-  name: string;
-  phone: string;
-  email: string;
-  joined: string;
-  image: string;
-  usrId: string;
   showForm = true;
   editablePhone: boolean = false;
   phoneError: boolean = false;
-  is_verified: boolean = false;
-  pending_verification: boolean = false;
-  notifications_enabled: boolean = false;
   isLoading:boolean =  true;
+
+  userId: string;
+
+  userInfo: User ;
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
@@ -62,8 +58,16 @@ export class SettingsComponent implements OnInit {
     }, {
       validators: this.comparePasswords.bind(this)
     })
-    this.usrId = this.authService.getUserId();
+    this.userId = this.authService.getUserId();
 
+    this.socketsService.on("verificationUpdate", (data:any) => {
+      this.getUserInfo();
+      const snack = this._snackBar.open(data.message, "Close", {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      })
+      snack._dismissAfter(3000);
+    });
     this.getUserInfo();
 
   }
@@ -139,27 +143,21 @@ export class SettingsComponent implements OnInit {
 
   getUserInfo() {
     this.isLoading = true;
-    this._user.getUserInfo(this.usrId).then(data => {
-      this.name = data.user.name;
-      this.email = data.user.email;
-      this.joined = new Date(data.user.joined).toLocaleDateString();
-      this.image = data.user.image_url || "/assets/images/default-profile-pic.jpg";
-      this.phone = data.user.phone_number;
-      this.is_verified = !!data.user.is_verified;
-      this.notifications_enabled = !!data.user.notifications_enabled;
-      this.pending_verification = !!data.user.pending_verification;
+    this._user.getUserInfo(this.userId).then((data:any) => {
+      this.userInfo = data.user;
+      this.userInfo.image_url = this.userInfo.image_url || "/assets/images/default-profile-pic.jpg";
       this.isLoading = false;
     })
   }
 
   toggleEditablePhone(): void {
     if (this.editablePhone) {
-      if (!this.phone) {
+      if (!this.userInfo.phone_number) {
         this.phoneError = true
         return
       } else {
         this.phoneError = false;
-        this._user.changePhoneNumber(this.phone)
+        this._user.changePhoneNumber(this.userInfo.phone_number)
           .then(msg => {
             console.log(msg);
             const snack = this._snackBar.open(msg.message, "Close", {
@@ -175,7 +173,7 @@ export class SettingsComponent implements OnInit {
               verticalPosition: this.verticalPosition,
             })
             snack._dismissAfter(3000);
-            this.phone = undefined;
+            this.userInfo.phone_number = undefined;
           })
       }
     }
@@ -184,10 +182,10 @@ export class SettingsComponent implements OnInit {
 
 
   activateSMSNotifications() {
-    if (this.phone) {
+    if (this.userInfo.phone_number) {
       this._user.activateSMSNotifications()
         .then((res: any) => {
-          this.notifications_enabled = true;
+          this.userInfo.notifications_enabled = true;
           const snack = this._snackBar.open(res.data.message, "Close", {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
