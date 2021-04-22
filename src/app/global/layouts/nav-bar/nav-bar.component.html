@@ -12,9 +12,9 @@
 
         <div class="searchbar">
             <div class="search-control">
-                <input type="text" name="path" id="path" placeholder="Search product...">
+                <input type="text" name="path" id="path" [(ngModel)]="searchQuery"  (keyup.enter)="searchProduct()" placeholder="Search product...">
             </div>
-            <button>Search</button>
+            <button (click)="searchProduct()">Search</button>
         </div>
         <span class="example-spacer"></span>
 

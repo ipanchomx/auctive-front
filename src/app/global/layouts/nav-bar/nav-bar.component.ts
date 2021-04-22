@@ -2,17 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SocketsService } from '../../services/sockets.service';
+import { UserService } from '../../services/user.service';
+
 // import { NotificationsComponent } from 'src/app/dialogs/notifications/notifications.component';
 
 export interface notification {
   message: string;
   date: Date;
   emiterEmail: string;
-  fileName: string;
 }
-import { SessionService } from '../../services/session.service';
-import { SocketsService } from '../../services/sockets.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -23,13 +22,13 @@ export class NavBarComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   name: string = "";
+  searchQuery: string = "";
 
   noSize = 0;
 
   constructor(private authService: AuthService,
     private router: Router,
     private _matDialog: MatDialog,
-    private sessionService: SessionService,
     private socketsService: SocketsService,
     private userService: UserService
   ) {
@@ -40,30 +39,30 @@ export class NavBarComponent implements OnInit {
 
     this.socketsService.socketStatus.subscribe(status => {
       if (status) {
-        this.socketsService.on('notification', (data) => {
+        this.socketsService.on('notification', (data: Notification) => {
           this.noSize += 1;
         })
       }
-    })
-
-
+    });
   }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.userService.getUserInfo(this.authService.getUserId())
-      .then(res =>{
-        this.name = res.user.name;
-      })
-
+        .then(res => {
+          this.name = res.user.name;
+        })
     }
-
   }
 
   logout() {
-    // this.socketsService.disconnect();
+    this.socketsService.disconnect();
     this.authService.clear();
     this.router.navigate(['/home']);
+  }
+
+  searchProduct() {
+    this.router.navigate(['/auctions'], { queryParams: { q: this.searchQuery } })
   }
 
   // openNotifications() {
