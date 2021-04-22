@@ -1,1 +1,26 @@
-<p>auctions works!</p>
+<mat-drawer-container class="auctions-container">
+
+    <mat-drawer-content class="auctions-main">
+        <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
+        <div *ngIf="isLoading; else auctionsList" class="loading-div">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <ng-template #auctionsList>
+            <mat-card *ngFor="let auction of auctions" class="auction-card">
+                <img class="auction-image" src="{{auction.product_img_urls[0]}}">
+                <div class="auction-info">
+                    <h2>{{auction.title}}</h2>
+                    <p>{{auction.description}}</p>
+                    <h3>{{(auction.current_price && auction.current_price>auction.starting_price)?auction.current_price
+                        :auction.starting_price|currency}}</h3>
+                </div>
+
+            </mat-card>
+        </ng-template>
+    </mat-drawer-content>
+
+    <mat-drawer mode="side" opened class="sidebar-drawer">
+        <app-sidebar></app-sidebar>
+    </mat-drawer>
+</mat-drawer-container>

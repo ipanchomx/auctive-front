@@ -18,6 +18,7 @@ import { AuctionsComponent } from './pages/auctions/auctions.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ChangePhotoFormComponent } from './dialogs/change-photo-form/change-photo-form.component';
 import { CreateVerificationFormComponent } from './dialogs/create-verification-form/create-verification-form.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CreateVerificationFormComponent } from './dialogs/create-verification-f
     AuctionsComponent,
     SettingsComponent,
     ChangePhotoFormComponent,
-    CreateVerificationFormComponent
+    CreateVerificationFormComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
