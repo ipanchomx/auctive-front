@@ -18,7 +18,7 @@ export class SocketsService {
         polling: {
           extraHeaders: {
             'Authorization': token,
-            'user-email': email
+            'userEmail': email
           }
         }
       }

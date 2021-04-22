@@ -6,6 +6,7 @@ import { UserService } from 'src/app/global/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImagesService } from 'src/app/global/services/images.service';
 import { ImageAsset } from 'src/app/global/models/image-asset.model';
+import { SocketsService } from 'src/app/global/services/sockets.service';
 
 @Component({
   selector: 'app-create-verification-form',
@@ -25,7 +26,9 @@ export class CreateVerificationFormComponent implements OnInit {
     private _dialogRef: MatDialogRef<CreateVerificationFormComponent>,
     private _user: UserService,
     private _snackBar: MatSnackBar,
-    private imageService:ImagesService) { }
+    private imageService:ImagesService,
+    private socketsService: SocketsService,
+    ) { }
 
   ngOnInit(): void {
   }
@@ -66,7 +69,7 @@ export class CreateVerificationFormComponent implements OnInit {
         horizontalPosition: 'center',
         verticalPosition: 'top'
       })
-
+      this.socketsService.emit("verificationRequest", {});
       snack._dismissAfter(3000);
       this.onClose();
 

@@ -78,7 +78,7 @@ export class SignUpComponent implements OnInit {
       this.sessionService.login(this.loginForm.getRawValue()).then(data => {
         this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
-        // this._socket.connect(this.authService.get(), this.authService.getUserId());
+        this._socket.connect(this.authService.get(), this.authService.getUserId());
         this.router.navigate(["/auctions"])
       }).catch(err => {
         console.log(err);
