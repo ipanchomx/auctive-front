@@ -26,3 +26,38 @@ mat-nav-list {
 .mat-toolbar {
   background: #eeeded;
 }
+
+.searchbar {
+  width: 60%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  * {
+    height: 30px;
+  }
+}
+
+.search-control {
+  flex: 1 1 auto;
+}
+.searchbar input {
+  height: 100%;
+  padding: 20px;
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1.5px solid #c2c2c2;
+  outline: none;
+  font-size: 14px;
+}
+
+.category-picker {
+  display: flex;
+  background-color: white;
+  align-items: center;
+
+  * {
+    margin: 0;
+  }
+}

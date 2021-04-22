@@ -10,23 +10,42 @@
         </div>
         <span class="example-spacer"></span>
 
+
+        <div class="searchbar">
+            
+            <div class="category-picker">
+                <p>Category:</p>
+                <mat-select>
+                    <mat-option>Clear</mat-option>
+                    <mat-option value="valid">Valid option</mat-option>
+                    <mat-option value="invalid">Invalid option</mat-option>
+                </mat-select>
+            </div>
+            <div class="search-control">
+                <input type="text" name="path" id="path" placeholder="Search product...">
+            </div>
+
+        </div>
+        <span class="example-spacer"></span>
+
         <mat-nav-list *ngIf='isLoggedIn'>
-            <a mat-icon-button class="icon-big"  routerLink="auctions">
+            <a mat-icon-button class="icon-big" routerLink="auctions">
                 <mat-icon>home</mat-icon>
             </a>
-            <a mat-icon-button class="icon-big"  routerLink="settings">
+            <a mat-icon-button class="icon-big" routerLink="settings">
                 <mat-icon>settings</mat-icon>
             </a>
             <a mat-icon-button class="icon-big">
-                <mat-icon matBadge="{{noSize}}" [matBadgeHidden]="noSize===0" matBadgeSize="small" matBadgeColor="warn"  (click)="openNotifications()">notifications</mat-icon>
+                <mat-icon matBadge="{{noSize}}" [matBadgeHidden]="noSize===0" matBadgeSize="small" matBadgeColor="warn"
+                    (click)="openNotifications()">notifications</mat-icon>
             </a>
 
             <a mat-button (click)='logout()'>Log Out</a>
         </mat-nav-list>
-        
-        <mat-nav-list *ngIf='!isLoggedIn' >
+
+        <mat-nav-list *ngIf='!isLoggedIn'>
             <a mat-button routerLink="sign-up">Sign Up / Log In</a>
-        </mat-nav-list>    
+        </mat-nav-list>
 
     </mat-toolbar-row>
 </mat-toolbar>
