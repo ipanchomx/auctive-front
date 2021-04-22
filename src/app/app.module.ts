@@ -21,6 +21,7 @@ import { CreateVerificationFormComponent } from './dialogs/create-verification-f
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AuctionItemComponent } from './components/auction-item/auction-item.component';
 import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
+import { AuctionSubscriptionsComponent } from './pages/auction-subscriptions/auction-subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
     CreateVerificationFormComponent,
     SidebarComponent,
     AuctionItemComponent,
-    MyAuctionsComponent
+    MyAuctionsComponent,
+    AuctionSubscriptionsComponent
   ],
   imports: [
     BrowserModule,

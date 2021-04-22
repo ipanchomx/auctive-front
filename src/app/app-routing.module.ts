@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './global/guards/auth.guard';
 import { UnAuthGuard } from './global/guards/un-auth.guard';
+import { AuctionSubscriptionsComponent } from './pages/auction-subscriptions/auction-subscriptions.component';
 import { AuctionsComponent } from './pages/auctions/auctions.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'auctions', component: AuctionsComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'my-auctions', component: MyAuctionsComponent, canActivate: [AuthGuard] },
+  { path: 'my-auction-subscriptions', component: AuctionSubscriptionsComponent, canActivate: [AuthGuard] },
   // { path: '**', component: Page404Component },
   // { path: '404', component: Page404Component }
 ];
