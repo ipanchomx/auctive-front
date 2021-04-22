@@ -34,30 +34,29 @@ mat-nav-list {
   align-items: center;
   justify-self: center;
   * {
-    height: 30px;
+    height: 45px;
   }
+  
 }
 
 .search-control {
   flex: 1 1 auto;
+  padding: 0;
 }
 .searchbar input {
   height: 100%;
-  padding: 20px;
-  height: 30px;
+  padding: 10px;
+  width: 100%;
   box-sizing: border-box;
-  border-radius: 5px;
-  border: 1.5px solid #c2c2c2;
   outline: none;
   font-size: 14px;
+  box-sizing: border-box;
+  border: none
+  ;
 }
 
-.category-picker {
-  display: flex;
-  background-color: white;
-  align-items: center;
-
-  * {
-    margin: 0;
-  }
+button {
+  background-color: gold;
+  border-radius: 0;
+  border: none;
 }
