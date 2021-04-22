@@ -28,7 +28,6 @@ export class AuctionsService {
     }).toPromise();
   }
 
-
   getMyAuctions() {
     const url = `${environment.apiUrl}/auctions/getAuctions`;
     const headers = new HttpHeaders({
@@ -39,4 +38,27 @@ export class AuctionsService {
       headers
     }).toPromise();
   }
+
+  getAuctionSubscriptions() {
+    const url = `${environment.apiUrl}/user/auctions`;
+    const headers = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.get(url, {
+      headers
+    }).toPromise();
+  }
+
+  getAuctionsByList(auctionIds:any) {
+    const url = `${environment.apiUrl}/auctions/list`;
+    const headers = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.post(url,{"auctionIds": auctionIds} , {
+      headers
+    }).toPromise();
+  }
+
 }
