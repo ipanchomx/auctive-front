@@ -27,4 +27,16 @@ export class AuctionsService {
       params,
     }).toPromise();
   }
+
+
+  getMyAuctions() {
+    const url = `${environment.apiUrl}/auctions/getAuctions`;
+    const headers = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.get(url, {
+      headers
+    }).toPromise();
+  }
 }
