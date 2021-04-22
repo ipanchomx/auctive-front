@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
+import { AuthService } from 'src/app/global/services/auth.service';
 
 @Component({
   selector: 'app-auctions',
@@ -13,10 +14,12 @@ export class AuctionsComponent implements OnInit {
   auctions: Array<Auction>;
   isLoading: boolean = false;
   errorMessage: String = '';
+  currentUser: String;
 
-  constructor(private route: ActivatedRoute, private auctionsService: AuctionsService) { }
+  constructor(private route: ActivatedRoute, private auctionsService: AuctionsService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getUserId()
     this.route.queryParams.subscribe(params => {
       const query = params.q || '';
       const category = params.category;

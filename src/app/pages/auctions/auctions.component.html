@@ -7,7 +7,9 @@
         </div>
 
         <ng-template #auctionsList>
-            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"></app-auction-item>
+            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
+                [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
+            </app-auction-item>
         </ng-template>
     </mat-drawer-content>
 

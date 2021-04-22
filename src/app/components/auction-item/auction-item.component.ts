@@ -8,6 +8,7 @@ import { Auction } from 'src/app/global/models/auction.model';
 })
 export class AuctionItemComponent implements OnInit {
   @Input() auction: Auction;
+  @Input() winning: string;
   auctionInfo: any;
   constructor() { }
 
