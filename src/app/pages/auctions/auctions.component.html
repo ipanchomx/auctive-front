@@ -7,16 +7,7 @@
         </div>
 
         <ng-template #auctionsList>
-            <mat-card *ngFor="let auction of auctions" class="auction-card">
-                <img class="auction-image" src="{{auction.product_img_urls[0]}}">
-                <div class="auction-info">
-                    <h2>{{auction.title}}</h2>
-                    <p>{{auction.description}}</p>
-                    <h3>{{(auction.current_price && auction.current_price>auction.starting_price)?auction.current_price
-                        :auction.starting_price|currency}}</h3>
-                </div>
-
-            </mat-card>
+            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"></app-auction-item>
         </ng-template>
     </mat-drawer-content>
 

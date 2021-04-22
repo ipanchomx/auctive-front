@@ -24,12 +24,14 @@ export class AuctionsComponent implements OnInit {
       this.auctionsService.searchAuctions(query, category)
         .then((response: any) => {
           this.auctions = response.auctions;
+          this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
           this.isLoading = false;
           this.errorMessage = "";
         })
         .catch(resp => {
           this.auctions = [];
           this.errorMessage = "Could not find auctions";
+          this.isLoading = false;
         });
 
     });

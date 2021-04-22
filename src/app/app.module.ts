@@ -5,11 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 
+import { CountdownModule } from 'ngx-countdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { NavBarComponent } from './global/layouts/nav-bar/nav-bar.component';
@@ -19,6 +19,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { ChangePhotoFormComponent } from './dialogs/change-photo-form/change-photo-form.component';
 import { CreateVerificationFormComponent } from './dialogs/create-verification-form/create-verification-form.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AuctionItemComponent } from './components/auction-item/auction-item.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     SettingsComponent,
     ChangePhotoFormComponent,
     CreateVerificationFormComponent,
-    SidebarComponent
+    SidebarComponent,
+    AuctionItemComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     HttpClientModule,
     FormsModule, 
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,  
+    CountdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
