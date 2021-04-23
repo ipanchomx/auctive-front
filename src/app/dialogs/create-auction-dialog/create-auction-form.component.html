@@ -27,7 +27,7 @@
 
             <mat-form-field class="description" appearance="fill">
                 <mat-label>Description</mat-label>
-                <textarea matInput name="description" rows="2"></textarea>
+                <textarea matInput name="description" [(ngModel)]="description" rows="2"></textarea>
             </mat-form-field>
 
             <label>Category:</label>
@@ -107,7 +107,7 @@
         </form>
     </div>
     <button mat-raised-button style="width:100%; margin-top: 20px" color="primary" (click)="createAuction()"
-        [disabled]="!images || !images.length || !title || !description || startingPrice<=0 || buyNowPrice<=0 || startingPrice<buyNowPrice">
+        [disabled]="!images || !images.length || !title || !description || startingPrice<=0 || buyNowPrice<=0 || startingPrice>=buyNowPrice">
         Accept
     </button>
 

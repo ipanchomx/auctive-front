@@ -7,6 +7,8 @@ import { SocketsService } from 'src/app/global/services/sockets.service';
 import { CategoryService } from 'src/app/global/services/category.service';
 import { ImagesService } from 'src/app/global/services/images.service';
 import { ImageAsset } from 'src/app/global/models/image-asset.model';
+import { AuctionsService } from 'src/app/global/services/auctions.service';
+import { AuctionRequest, ImageRequest } from 'src/app/global/models/auction-request.model';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class CreateAuctionFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _dialogRef: MatDialogRef<CreateAuctionFormComponent>,
+    private _auctionService: AuctionsService,
     private _snackBar: MatSnackBar,
     private _sockets: SocketsService,
     private _categoryService: CategoryService,
@@ -42,7 +45,6 @@ export class CreateAuctionFormComponent implements OnInit {
   tagInput: string = '';
 
   inProgress: boolean = false;
-  progress: number = 0;
 
   ngOnInit(): void {
     this.getCategories();
@@ -77,41 +79,49 @@ export class CreateAuctionFormComponent implements OnInit {
   }
 
   createAuction() {
-    // let form = new FormData();
-    // form.append('extension', this.extension);
-    // form.append('needsVerification', this.needsVerification.toString());
-    // form.append('sharedWith', JSON.stringify(this.tags));
-    // form.append('file', this.file, this.fileName);
-    // form.append('path', this.data.path);
+
     this.inProgress = true;
 
-    // this._files.upload(form).subscribe(event => {
-    //   if (event.type === HttpEventType.UploadProgress) {
-    //     this.progress = event.loaded / event.total;
-    //   } else if (event.type === HttpEventType.Response) {
-    //     this._dialogRef.close();
-    //     this.progress = 0;
-    //     this.inProgress = false;
+    let imageBodies: ImageRequest[] = this.images.map(image => {
+      let img: ImageRequest = {
+        mime: image.file.type,
+        image: image.src
+      }
 
-    //     const snackbarRef = this._snackBar.open("File uploaded successfully", "Close", {
-    //       horizontalPosition: 'center',
-    //       verticalPosition: 'top'
-    //     })
-    //     snackbarRef._dismissAfter(3000);
-    //     const file: any = event.body;
-    //     this._sockets.emit('notification', {file: file, sharedWith: file.sharedWith, type: "share"});
+      return img;
+    });
 
-    //   }
-    // }, error => {
-    //   console.log(error);
-    //   this.inProgress = false;
-    //   const snackbarRef = this._snackBar.open(`Unable to Upload File - ${error.error.message}`, "Close", {
-    //     horizontalPosition: 'center',
-    //     verticalPosition: 'top'
-    //   })
-
-    // snackbarRef._dismissAfter(3000);
-    // })
+    let auctionRequest: AuctionRequest = {
+      buy_now_price: this.buyNowPrice,
+      category: this.category,
+      description: this.description,
+      title: this.title,
+      duration: this.duration,
+      images: imageBodies,
+      starting_price: this.startingPrice,
+      tags: this.tags || []
+    }
+    this._auctionService.createAuction(auctionRequest)
+      .then(res => {
+        console.log(res);
+        this.inProgress = false;
+        this._dialogRef.close(res.auction);
+        const snackbarRef = this._snackBar.open("File uploaded successfully", "Close", {
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
+        snackbarRef._dismissAfter(3000);
+      })
+      .catch(res => {
+        this.inProgress = false;
+        console.log(res)
+        const snackbarRef = this._snackBar.open(`Unable to Upload File - ${''}`, "Close", {
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            })
+      
+          snackbarRef._dismissAfter(3000);
+      })
 
   }
 

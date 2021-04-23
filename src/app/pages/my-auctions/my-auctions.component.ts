@@ -53,7 +53,7 @@ export class MyAuctionsComponent implements OnInit {
 
     dialogRef.afterClosed()
       .subscribe(result => {
-
+        if(result) this.getMyAuctions();
       });
   }
 }
