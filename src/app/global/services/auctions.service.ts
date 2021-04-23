@@ -8,7 +8,10 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AuctionsService {
-  constructor(private httpClient: HttpClient, private _authService: AuthService) { }
+  constructor(
+    private httpClient: HttpClient,
+    private _authService: AuthService
+  ) { }
 
   searchAuctions(q: string, category: any) {
     const url = `${environment.apiUrl}/auctions`;

@@ -9,6 +9,7 @@ import { ImagesService } from 'src/app/global/services/images.service';
 import { ImageAsset } from 'src/app/global/models/image-asset.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
 import { AuctionRequest, ImageRequest } from 'src/app/global/models/auction-request.model';
+import { Auction } from 'src/app/global/models/auction.model';
 
 
 @Component({
@@ -105,6 +106,8 @@ export class CreateAuctionFormComponent implements OnInit {
       .then(res => {
         console.log(res);
         this.inProgress = false;
+        const auction: Auction = res.auction;
+        this._sockets.emit("scheduleAuction", {auctionId: auction.auction_id, endDate: auction.end_date, auctionOwnerEmail: auction.owner_email})
         this._dialogRef.close(res.auction);
         const snackbarRef = this._snackBar.open("File uploaded successfully", "Close", {
           horizontalPosition: 'center',
