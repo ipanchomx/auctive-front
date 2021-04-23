@@ -7,6 +7,36 @@
         </div>
 
         <ng-template #auctionsList>
+            <mat-card class="search-filters">
+                <h2 id="search-title">Search filters</h2>
+                <div style="font-size: 12px; display: inline-block;"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Category</mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="category" >
+                          <mat-option>Todas</mat-option>
+                          <mat-option *ngFor="let category of categories" [value]="category" (click)="changeOnSearchFilters()">{{category}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                
+                <p id="price"> Price: </p>
+                <div style="font-size: 12px; display: inline-block;">
+                    <mat-form-field appearance="fill"> 
+                        <mat-label>Starting price</mat-label>
+                        <input matInput placeholder="0.00" value="min_price" type="number" [(ngModel)]="min_price" (change)="changeOnSearchFilters()">
+                    </mat-form-field>
+                </div>
+                
+                <p id="to"> To </p>
+                <div style="font-size: 12px; display: inline-block;">
+                    <mat-form-field appearance="fill"> 
+                        <mat-label>Last price</mat-label>
+                        <input matInput placeholder="0.00" value="max_price" type="number" [(ngModel)]="max_price" (change)="changeOnSearchFilters()">
+                    </mat-form-field>
+                </div>
+
+            </mat-card>
+
             <h1>Search results</h1>
             <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
                 [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
