@@ -1,78 +1,114 @@
-<div
-    style="height: 100%; width: 100%; position:relative; display: flex; flex-direction: column; justify-content: space-between;">
+<div class="form-container">
     <button class="btn-dialog-close" style="position: absolute; right:0px" mat-stroked-button (click)="onClose()"
         tabIndex="-1">
         <mat-icon>clear</mat-icon>
     </button>
 
-
-    <div style="width: 100%;">
+    <div style="width: 100%; flex: 1 1 auto">
         <h1>Register auction</h1>
-        <h2><small>Images: </small>{{data.path}}</h2>
 
         <div *ngIf="inProgress" style="width: 100%; display: flex; align-items: center; flex-direction: column;">
             <h1>Upload in progress</h1>
             <mat-spinner></mat-spinner>
         </div>
-        <form *ngIf="!inProgress" class="example-form">
-            <button mat-raised-button class="example-full-width" (click)="inputFile.click()" color="primary">
+        <form *ngIf="!inProgress" name="createAuctionForm" class="example-form" (submit)="$event.preventDefault()">
+            <a mat-raised-button class="example-full-width" (click)="inputFile.click()" color="primary">
                 Select Files to upload
-            </button>
-            <input #inputFile (change)="onFileChange($event)" style="display: none;" type="file">
+            </a>
+            <input #inputFile (change)="onFileChange($event)" name="imagePicker" accept="image/*" multiple
+                style="display: none;" type="file">
 
 
-            <label>Share file:</label>
-            <div class="shareWithInputContainer">
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose an option</mat-label>
-                    <mat-select [(ngModel)]="category" name="filePermission">
-                        <mat-option *ngFor="let cat of categories" value="cat">{{cat}}</mat-option>
-                    </mat-select>
+            <p *ngIf="images.length">{{images.length}} images selected.</p>
+            <mat-form-field appearance="fill" class="titleInput">
+                <mat-label>Title</mat-label>
+                <input matInput autocomplete="off" [(ngModel)]="title" name="product-title">
+            </mat-form-field>
+
+            <mat-form-field class="description" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput name="description" rows="2"></textarea>
+            </mat-form-field>
+
+            <label>Category:</label>
+            <mat-form-field appearance="fill" class="pickCategory">
+                <mat-label>Choose an option</mat-label>
+                <mat-select [(ngModel)]="category" name="categoryPicker">
+                    <mat-option *ngFor="let cat of categories" value="cat">{{cat}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <label>Price:</label>
+            <div class="price-values">
+                <div style="font-size: 14px; display: inline-block;">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Starting price</mat-label>
+                        <input matInput type="number" name="startingPrice" value="{{startingPrice}}"
+                            [(ngModel)]="startingPrice">
+                    </mat-form-field>
+                </div>
+                <div style="font-size: 14px; display: inline-block;">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Buy now price</mat-label>
+                        <input matInput type="number" name="buyNowPrice" value="{{buyNowPrice}}" min="{{startingPrice}}"
+                            [(ngModel)]="buyNowPrice">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="tags">
+                <mat-form-field id="tag-input">
+                    <mat-label>Add tag</mat-label>
+                    <input matInput autocomplete="off" [(ngModel)]="tagInput" name="add-product-tag"
+                        (keyUp.enter)="addTagToList()">
                 </mat-form-field>
-                <span class="example-spacer"></span>
-                <mat-form-field id="shareWithInput">
-                    <mat-label>Share With</mat-label>
-                    <input matInput placeholder="Type email of user" autocomplete="off" [(ngModel)]="shareWithInp"
-                        name="searchUserForSharing" (keyup)="searchUsers($event)" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectCurrentUser($event.option.value)'
-                        [displayWith]="displayFn">
-                        <mat-option *ngFor="let option of users" [value]="option">
-                            {{option.email}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <button mat-icon-button aria-label="Icon button to add user to shared list"
-                    [disabled]="!this.currentUser || !this.category" (click)="addUserToSharedList()">
+                <button mat-icon-button aria-label="Icon button to add user to shared list" [disabled]="!tagInput"
+                    (click)="addTagToList()">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
 
 
-
-
-            <mat-chip-list aria-label="Added users list" selectable="false">
-                <mat-chip removable="true" (removed)="remove(i)" *ngFor="let user of fileSharedWith; let i=index;">
-                    {{user.email}}
+            <mat-chip-list aria-label="product tags" selectable="false">
+                <mat-chip color="primary" selected removable="true" (removed)="remove(i)"
+                    *ngFor="let tagItem of tags; let i=index;">
+                    {{tagItem}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
             </mat-chip-list>
 
-            <label id="radio-group-label">Does file need Verification</label>
-            <mat-radio-group aria-labelledby="radio-group-label" class="radio-group needsVerification"
-                [(ngModel)]="needsVerification" name="requiresVerification">
-                <mat-radio-button class="radio-button" [value]="true">
-                    Yes
+            <label id="radio-group-label">Duration</label>
+            <mat-radio-group aria-labelledby="radio-group-label" class="radio-group duration" [(ngModel)]="duration"
+                name="requiresVerification">
+                <mat-radio-button class="radio-button" [value]="1">
+                    1 hour
                 </mat-radio-button>
 
-                <mat-radio-button class="radio-button" [value]="false">
-                    No
+                <mat-radio-button class="radio-button" [value]="3">
+                    3 hours
+                </mat-radio-button>
+
+                <mat-radio-button class="radio-button" [value]="6">
+                    6 hours
+                </mat-radio-button>
+                <mat-radio-button class="radio-button" [value]="24">
+                    1 day
+                </mat-radio-button>
+
+                <mat-radio-button class="radio-button" [value]="72">
+                    3 days
+                </mat-radio-button>
+
+                <mat-radio-button class="radio-button" [value]="168">
+                    7 days
                 </mat-radio-button>
             </mat-radio-group>
 
-
-            <button mat-raised-button style="margin-right: 15px;" color="primary" (click)="uploadFile()"
-                [disabled]="!fileName || !extension || !file">Upload File</button>
         </form>
     </div>
+    <button mat-raised-button style="width:100%; margin-top: 20px" color="primary" (click)="createAuction()"
+        [disabled]="!images || !images.length || !title || !description || startingPrice<=0 || buyNowPrice<=0 || startingPrice<buyNowPrice">
+        Accept
+    </button>
 
 </div>

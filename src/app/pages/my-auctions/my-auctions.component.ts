@@ -45,7 +45,7 @@ export class MyAuctionsComponent implements OnInit {
     dialogConfig.height = "300";
     dialogConfig.width = "40%"
     dialogConfig.minWidth = "360px";
-    dialogConfig.minHeight = "300px"
+    dialogConfig.minHeight = "700px"
     dialogConfig.data = {
     }
 
@@ -53,7 +53,7 @@ export class MyAuctionsComponent implements OnInit {
 
     dialogRef.afterClosed()
       .subscribe(result => {
-        
+
       });
   }
 }

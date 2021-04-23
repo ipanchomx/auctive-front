@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
 
 import { HttpEventType } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SocketsService } from 'src/app/global/services/sockets.service';
 import { CategoryService } from 'src/app/global/services/category.service';
+import { ImagesService } from 'src/app/global/services/images.service';
+import { ImageAsset } from 'src/app/global/models/image-asset.model';
 
 
 @Component({
@@ -20,19 +21,26 @@ export class CreateAuctionFormComponent implements OnInit {
     private _dialogRef: MatDialogRef<CreateAuctionFormComponent>,
     private _snackBar: MatSnackBar,
     private _sockets: SocketsService,
-    private categoryService: CategoryService
-    ) { }
+    private _categoryService: CategoryService,
+    private _imageService: ImagesService
+  ) { }
+
+  title: string = '';
+  description: string = '';
 
   files: File[];
+  images: ImageAsset[] = [];
   categories: any;
-  needsVerification = false;
-  users: any[];
-  tags: any[] = [];
-  userSearchInput: string = '';
-  shareWithInp: string = '';
   category: string = '';
-  currentUser: any;
-  subject: BehaviorSubject<string> = new BehaviorSubject('');
+
+  duration: number = 1;
+
+  startingPrice: number = 100;
+  buyNowPrice: number = 150;
+
+  tags: any[] = [];
+  tagInput: string = '';
+
   inProgress: boolean = false;
   progress: number = 0;
 
@@ -40,42 +48,26 @@ export class CreateAuctionFormComponent implements OnInit {
     this.getCategories();
   }
 
-  selectCurrentUser(user: any) {
-    this.currentUser = user;
-  }
-
-  addUserToSharedList() {
-    if (!this.category || !this.currentUser) {
+  addTagToList() {
+    if (!this.tagInput) {
       return
     }
-    this.tags.push({ ...this.currentUser, category: this.category });
-    this.currentUser = null;
-    this.category = 'read';
-    this.shareWithInp = '';
-    this.users = [];
+    this.tags.push(this.tagInput);
+    this.tagInput = '';
   }
 
-  displayFn(user: any) {
-    return user && user.email;
-  }
-
-
-
-  onFileChange(event) {
+  async onFileChange(event) {
+    console.log("IMGS");
     this.files = event.target.files;
-  }
-
-  searchUsers(e) {
-    this.subject.next(e.target.value)
+    this.images = await this._imageService.processMultipleImages(event.target.files);
   }
 
   remove(idx: number) {
     this.tags.splice(idx, 1);
   }
 
-  getCategories():void {
-    this.categoryService.getCategories().then((resp:any) => {
-      console.log(resp);
+  getCategories(): void {
+    this._categoryService.getCategories().then((resp: any) => {
       let categoriesList = resp.categories;
       categoriesList = categoriesList.map((item) => {
         return item.category_name;
@@ -84,10 +76,8 @@ export class CreateAuctionFormComponent implements OnInit {
     })
   }
 
-  uploadFile() {
+  createAuction() {
     // let form = new FormData();
-
-    
     // form.append('extension', this.extension);
     // form.append('needsVerification', this.needsVerification.toString());
     // form.append('sharedWith', JSON.stringify(this.tags));
@@ -102,7 +92,7 @@ export class CreateAuctionFormComponent implements OnInit {
     //     this._dialogRef.close();
     //     this.progress = 0;
     //     this.inProgress = false;
-        
+
     //     const snackbarRef = this._snackBar.open("File uploaded successfully", "Close", {
     //       horizontalPosition: 'center',
     //       verticalPosition: 'top'
@@ -110,7 +100,7 @@ export class CreateAuctionFormComponent implements OnInit {
     //     snackbarRef._dismissAfter(3000);
     //     const file: any = event.body;
     //     this._sockets.emit('notification', {file: file, sharedWith: file.sharedWith, type: "share"});
-        
+
     //   }
     // }, error => {
     //   console.log(error);
@@ -120,7 +110,7 @@ export class CreateAuctionFormComponent implements OnInit {
     //     verticalPosition: 'top'
     //   })
 
-      // snackbarRef._dismissAfter(3000);
+    // snackbarRef._dismissAfter(3000);
     // })
 
   }

@@ -30,9 +30,8 @@ h2 {
     margin: 5px;
 }
 
-.shareWithInputContainer {
-    width: 90%;
-    margin: 0 auto;
+.tags {
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -42,7 +41,60 @@ h2 {
         min-width: fit-content;
     }
 
-    #shareWithInput {
-        width: 60% !important;
+    #tag-input {
+        flex: 1 1 auto;
+    }
+}
+
+.duration {
+    margin: 0 auto;
+    width: 80%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.radio-button {
+    width: 100px;
+}
+
+.form-container {
+    overflow-y: scroll;
+    height: 700px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .titleInput {
+        margin-top: 15px;
+    }
+    .titleInput,
+    .description {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .pickCategory {
+        display: block;
+        width: 60%;
+        min-width: fit-content;
+    }
+
+    .price-values {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        * {
+            width: 45%;
+            min-width: fit-content;
+
+            * {
+                width: 100%;
+            }
+        }
     }
 }
