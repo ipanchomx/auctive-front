@@ -13,7 +13,7 @@ export class AuctionsService {
     private _authService: AuthService
   ) { }
 
-  searchAuctions(q: string, category: any) {
+  searchAuctions(q:string, category:any, starting_price:any, last_price:any) {
     const url = `${environment.apiUrl}/auctions`;
     const headers = new HttpHeaders({
       Authorization: this._authService.get()
@@ -23,7 +23,9 @@ export class AuctionsService {
       q
     }
 
-    if (category) params.category = category;
+    if(category) params.category = category;
+    if(starting_price) params.starting_price = starting_price;
+    if(last_price) params.last_price = last_price;
 
     return this.httpClient.get(url, {
       headers,
