@@ -16,11 +16,14 @@ export class AuctionsComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: String = '';
   currentUser: String;
-  categories: string[] = [];
+  categories: string[] = ["Ninguna"];
   min_price: number;
   max_price: number;
+  categorySelected: String;
+  priceMax: number;
+  priceMin: number;
   selectedValue: String;
-
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -33,8 +36,10 @@ export class AuctionsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const query = params.q || '';
       const category = params.category;
+      const starting_price = params.starting_price;
+      const last_price = params.last_price;
       this.isLoading = true;
-      this.auctionsService.searchAuctions(query, category)
+      this.auctionsService.searchAuctions(query, category, starting_price, last_price)
         .then((response: any) => {
           this.auctions = response.auctions;
           this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
@@ -55,30 +60,15 @@ export class AuctionsComponent implements OnInit {
   getCategories():void {
     this.categoryService.getCategories().then((resp:any) => {
       let categoriesList = resp.categories;
-      categoriesList = categoriesList.map((item) => {
-        return item.category_name;
+      categoriesList.forEach((element:any) => {
+        this.categories.push(element.category_name);
       });
-      this.categories = categoriesList;
     })
   }
 
   changeOnSearchFilters() {
-    // this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { q: this.searchQuery } })
-
-    if(this.selectedValue) return this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { category: this.selectedValue } })
-
-    let priceMax = this.max_price | 10000000;
-    let priceMin = this.min_price | 0;
-
-    // TODO: Hacer en el back una función que reciba category, price min y max, pero establecer valores por default en caso de que uno sea undefined.
-    
-    console.log("max_price: ",this.max_price);
-    console.log("min_price: ",this.min_price);
-    console.log("category selected: ",this.selectedValue);
-    console.log("max_price bool: ", this.max_price != undefined);
-    console.log("min_price bool: ", this.min_price != undefined);
-    console.log("category selected bool: ", this.selectedValue != undefined);
-
-    
+    if(this.categorySelected == "Ninguna") this.selectedValue = undefined;
+    else this.selectedValue = this.categorySelected;
+    return this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { category: this.selectedValue, starting_price: this.min_price, last_price: this.max_price} });
   }
 }
