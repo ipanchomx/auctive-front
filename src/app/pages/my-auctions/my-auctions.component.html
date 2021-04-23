@@ -8,6 +8,7 @@
         </div>
 
         <ng-template #auctionsList>
+            <button mat-raised-button color="primary" (click)="launchCreateAuctionDialog()">Register Auction</button>
 
             <ng-template #noAuctions>
                 <h1 *ngIf="!auctions.length">You have no auctions.</h1>

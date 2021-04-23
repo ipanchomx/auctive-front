@@ -1,0 +1,78 @@
+<div
+    style="height: 100%; width: 100%; position:relative; display: flex; flex-direction: column; justify-content: space-between;">
+    <button class="btn-dialog-close" style="position: absolute; right:0px" mat-stroked-button (click)="onClose()"
+        tabIndex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+
+
+    <div style="width: 100%;">
+        <h1>Register auction</h1>
+        <h2><small>Images: </small>{{data.path}}</h2>
+
+        <div *ngIf="inProgress" style="width: 100%; display: flex; align-items: center; flex-direction: column;">
+            <h1>Upload in progress</h1>
+            <mat-spinner></mat-spinner>
+        </div>
+        <form *ngIf="!inProgress" class="example-form">
+            <button mat-raised-button class="example-full-width" (click)="inputFile.click()" color="primary">
+                Select Files to upload
+            </button>
+            <input #inputFile (change)="onFileChange($event)" style="display: none;" type="file">
+
+
+            <label>Share file:</label>
+            <div class="shareWithInputContainer">
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose an option</mat-label>
+                    <mat-select [(ngModel)]="category" name="filePermission">
+                        <mat-option *ngFor="let cat of categories" value="cat">{{cat}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span class="example-spacer"></span>
+                <mat-form-field id="shareWithInput">
+                    <mat-label>Share With</mat-label>
+                    <input matInput placeholder="Type email of user" autocomplete="off" [(ngModel)]="shareWithInp"
+                        name="searchUserForSharing" (keyup)="searchUsers($event)" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectCurrentUser($event.option.value)'
+                        [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of users" [value]="option">
+                            {{option.email}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <button mat-icon-button aria-label="Icon button to add user to shared list"
+                    [disabled]="!this.currentUser || !this.category" (click)="addUserToSharedList()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+
+
+
+
+            <mat-chip-list aria-label="Added users list" selectable="false">
+                <mat-chip removable="true" (removed)="remove(i)" *ngFor="let user of fileSharedWith; let i=index;">
+                    {{user.email}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+
+            <label id="radio-group-label">Does file need Verification</label>
+            <mat-radio-group aria-labelledby="radio-group-label" class="radio-group needsVerification"
+                [(ngModel)]="needsVerification" name="requiresVerification">
+                <mat-radio-button class="radio-button" [value]="true">
+                    Yes
+                </mat-radio-button>
+
+                <mat-radio-button class="radio-button" [value]="false">
+                    No
+                </mat-radio-button>
+            </mat-radio-group>
+
+
+            <button mat-raised-button style="margin-right: 15px;" color="primary" (click)="uploadFile()"
+                [disabled]="!fileName || !extension || !file">Upload File</button>
+        </form>
+    </div>
+
+</div>

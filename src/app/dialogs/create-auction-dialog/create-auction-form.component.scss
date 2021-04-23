@@ -1,0 +1,48 @@
+.example-form {
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+h1 {
+    width: fit-content;
+}
+
+h2 {
+    margin: 0;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+#radio-group-label {
+    margin-top: 15px;
+    display: block;
+}
+
+.radio-button {
+    margin: 5px;
+}
+
+.shareWithInputContainer {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    * {
+        min-width: fit-content;
+    }
+
+    #shareWithInput {
+        width: 60% !important;
+    }
+}

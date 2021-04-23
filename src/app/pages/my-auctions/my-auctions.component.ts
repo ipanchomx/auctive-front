@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CreateAuctionFormComponent } from 'src/app/dialogs/create-auction-dialog/create-auction-form.component';
 
 @Component({
   selector: 'app-my-auctions',
@@ -14,7 +16,8 @@ export class MyAuctionsComponent implements OnInit {
   errorMessage: String = '';
   
   constructor(
-    private auctionsService: AuctionsService
+    private auctionsService: AuctionsService,
+    private _matDialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -33,5 +36,24 @@ export class MyAuctionsComponent implements OnInit {
       this.errorMessage = "Could not find auctions";
       this.isLoading = false;
     }))
+  }
+
+  launchCreateAuctionDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = "300";
+    dialogConfig.width = "40%"
+    dialogConfig.minWidth = "360px";
+    dialogConfig.minHeight = "300px"
+    dialogConfig.data = {
+    }
+
+    const dialogRef = this._matDialog.open(CreateAuctionFormComponent, dialogConfig);
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        
+      });
   }
 }
