@@ -3,6 +3,7 @@ import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateAuctionFormComponent } from 'src/app/dialogs/create-auction-dialog/create-auction-form.component';
+import { AuthService } from 'src/app/global/services/auth.service';
 
 @Component({
   selector: 'app-my-auctions',
@@ -14,14 +15,17 @@ export class MyAuctionsComponent implements OnInit {
   auctions: Array<Auction>;
   isLoading: boolean = false;
   errorMessage: String = '';
+  currentUser: String;
   
   constructor(
     private auctionsService: AuctionsService,
     private _matDialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.getMyAuctions();
+    this.currentUser = this.authService.getUserId();
   }
 
   getMyAuctions() {
