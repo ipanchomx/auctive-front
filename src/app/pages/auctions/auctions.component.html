@@ -12,8 +12,7 @@
                 <div style="font-size: 12px; display: inline-block;"> 
                     <mat-form-field appearance="fill">
                         <mat-label>Category</mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="category" >
-                          <mat-option>Todas</mat-option>
+                        <mat-select [(ngModel)]="categorySelected" name="category" >
                           <mat-option *ngFor="let category of categories" [value]="category" (click)="changeOnSearchFilters()">{{category}}</mat-option>
                         </mat-select>
                     </mat-form-field>
