@@ -23,19 +23,24 @@ export class AuctionSubscriptionsComponent implements OnInit {
 
   getMySubscriptionsAuctions() {
     this.isLoading = true;
+    this.errorMessage = "";
     this.auctionsService.getAuctionSubscriptions().then((resp:any) => {
       let auctionIds = resp.auctions;
-      auctionIds = auctionIds.map((value:any) =>{
+      return auctionIds.map((value:any) =>{
         return `${value.auctionId}`
       })
 
-      this.auctionsService.getAuctionsByList(auctionIds).then((auctionsList:any) => {
-        this.auctions = auctionsList.auctions;
-        this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
-        this.isLoading = false;
-        this.errorMessage = "";
-      })
-    }).catch(error => {
+    })
+    .then(auctionIds =>{
+      if(!auctionIds.length) return [];
+      return this.auctionsService.getAuctionsByList(auctionIds)
+    })
+    .then((auctionsList:any) => {
+      this.auctions = auctionsList.auctions || [];
+      this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
+      this.isLoading = false;
+    })
+    .catch(error => {
       console.log(error);
       this.auctions = [];
       this.errorMessage = "Could not find auctions";

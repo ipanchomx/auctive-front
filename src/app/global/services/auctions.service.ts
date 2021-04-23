@@ -29,7 +29,7 @@ export class AuctionsService {
   }
 
   getMyAuctions() {
-    const url = `${environment.apiUrl}/auctions/getAuctions`;
+    const url = `${environment.apiUrl}/auctions/get-my-auctions`;
     const headers = new HttpHeaders({
       Authorization: this._authService.get()
     });
