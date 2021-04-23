@@ -22,6 +22,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AuctionItemComponent } from './components/auction-item/auction-item.component';
 import { AuctionSubscriptionsComponent } from './pages/auction-subscriptions/auction-subscriptions.component';
 import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
+import { CreateAuctionFormComponent } from './dialogs/create-auction-dialog/create-auction-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
     SidebarComponent,
     AuctionItemComponent,
     AuctionSubscriptionsComponent,
-    MyAuctionsComponent
+    MyAuctionsComponent,
+    CreateAuctionFormComponent
   ],
   imports: [
     BrowserModule,
