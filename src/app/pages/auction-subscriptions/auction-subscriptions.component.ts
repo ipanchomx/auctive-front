@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
+import { AuthService } from 'src/app/global/services/auth.service';
 
 @Component({
   selector: 'app-auction-subscriptions',
@@ -12,13 +13,16 @@ export class AuctionSubscriptionsComponent implements OnInit {
   auctions: Array<Auction>;
   isLoading: boolean = false;
   errorMessage: String = '';
+  currentUser: String;
   
   constructor(
-    private auctionsService: AuctionsService
+    private auctionsService: AuctionsService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.getMySubscriptionsAuctions();
+    this.currentUser = this.authService.getUserId();
   }
 
   getMySubscriptionsAuctions() {

@@ -14,20 +14,45 @@ export class ImagesService {
 
     return new Promise<ImageAsset>((resolve, reject) => {
       reader.onload = (event: ProgressEvent<FileReader>) => {
-        let selectedFile:ImageAsset = { src: event.target.result.toString(), file : image};
+        let selectedFile: ImageAsset = { src: event.target.result.toString(), file: image };
         resolve(selectedFile);
       }
 
       reader.onerror = (event: ProgressEvent<FileReader>) => {
         reject(null);
       }
-
       reader.readAsDataURL(image);
     })
 
   }
 
-  processMultipleImages() {
+  async processMultipleImages(files: FileList): Promise<ImageAsset[]> {
+    let images: Promise<ImageAsset>[] = Array.from(files).map((file: File) => {
+      return this.readFileAsDataUrl(file)
+    });
 
+    try {
+      let fileArray: ImageAsset[] = await Promise.all(images);
+      return fileArray;
+    } catch (error) {
+      return [];
+    }
   }
+
+  private readFileAsDataUrl(file: File): Promise<ImageAsset> {
+    return new Promise(function (resolve, reject) {
+      let fr = new FileReader();
+        fr.onload = function (event: any) {
+          let img: ImageAsset = { src: event.target.result.toString(), file };
+          resolve(img);
+        };
+
+        fr.onerror = function () {
+          reject(null);
+        };
+
+        fr.readAsDataURL(file);
+      });
+  }
+
 }

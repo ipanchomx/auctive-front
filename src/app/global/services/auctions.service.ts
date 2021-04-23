@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuctionRequest } from '../models/auction-request.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuctionsService {
-
   constructor(private httpClient: HttpClient, private _authService: AuthService) { }
 
   searchAuctions(q:string, category:any, starting_price:any, last_price:any) {
@@ -16,7 +16,7 @@ export class AuctionsService {
       Authorization: this._authService.get()
     });
 
-    let params:any = {
+    let params: any = {
       q
     }
 
@@ -52,14 +52,28 @@ export class AuctionsService {
     }).toPromise();
   }
 
-  getAuctionsByList(auctionIds:any) {
+  getAuctionsByList(auctionIds: any) {
     const url = `${environment.apiUrl}/auctions/list`;
     const headers = new HttpHeaders({
       Authorization: this._authService.get()
     });
 
-    return this.httpClient.post(url,{"auctionIds": auctionIds} , {
+    return this.httpClient.post(url, { "auctionIds": auctionIds }, {
       headers
+    }).toPromise();
+  }
+
+  public createAuction(auction: AuctionRequest): Promise<any> {
+
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': "application/json",
+      'Authorization': this._authService.get()
+    });
+
+    return this.httpClient.post(`${environment.apiUrl}/auctions`, {
+      ...auction
+    }, {
+      headers: httpHeaders,
     }).toPromise();
   }
 

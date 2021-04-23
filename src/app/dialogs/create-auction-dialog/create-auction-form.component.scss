@@ -1,0 +1,101 @@
+.example-form {
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+h1 {
+    width: fit-content;
+}
+
+h2 {
+    margin: 0;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+#radio-group-label {
+    margin-top: 15px;
+    display: block;
+}
+
+.radio-button {
+    margin: 5px;
+}
+
+.tags {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    * {
+        min-width: fit-content;
+    }
+
+    #tag-input {
+        flex: 1 1 auto;
+    }
+}
+
+.duration {
+    margin: 0 auto;
+    width: 80%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.radio-button {
+    width: 100px;
+}
+
+.form-container {
+    overflow-y: scroll;
+    overflow: hidden;
+    height: 750px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .titleInput {
+        margin-top: 15px;
+    }
+    .titleInput,
+    .description {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .pickCategory {
+        display: block;
+        width: 60%;
+        min-width: fit-content;
+    }
+
+    .price-values {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        * {
+            width: 45%;
+            min-width: fit-content;
+
+            * {
+                width: 100%;
+            }
+        }
+    }
+}

@@ -1,17 +1,17 @@
-
 <mat-drawer-container class="auctions-container">
 
     <mat-drawer-content class="auctions-main">
+        <h1>My Auctions</h1>
         <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
         <div *ngIf="isLoading; else auctionsList" class="loading-div">
             <mat-spinner></mat-spinner>
         </div>
 
         <ng-template #auctionsList>
-            <h1 *ngIf="auctions.length > 0; else noAuctions">My Auctions</h1>
+            <button mat-raised-button color="primary" (click)="launchCreateAuctionDialog()">Register Auction</button>
 
             <ng-template #noAuctions>
-                <h1>You have no auctions.</h1>
+                <h1 *ngIf="!auctions.length">You have no auctions.</h1>
             </ng-template>
 
             <app-auction-item *ngFor="let auction of auctions" [auction]="auction"

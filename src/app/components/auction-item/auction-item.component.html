@@ -3,7 +3,7 @@
     <div class="auction-info">
         <h2>{{auctionInfo.title}}</h2>
         <p class="description">{{auctionInfo.description}}</p>
-        <h3>Current Price: {{(auctionInfo.current_price)? ('$'+ auctionInfo.current_price) : '-' }}</h3>
+        <h3>Current Price: {{(auctionInfo.current_price && auctionInfo.current_price>0)? ('$'+ auctionInfo.current_price) : '-' }}</h3>
         <p>Starting Price: ${{auctionInfo.starting_price}}</p>
 
         <p *ngIf="auctionInfo.finished; else timeLeft" class="time-left">Auction has ended</p>
