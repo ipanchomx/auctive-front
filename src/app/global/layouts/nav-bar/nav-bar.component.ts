@@ -62,7 +62,7 @@ export class NavBarComponent implements OnInit {
   }
 
   searchProduct() {
-    this.router.navigate(['/auctions'], { queryParams: { q: this.searchQuery } })
+    this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { q: this.searchQuery } })
   }
 
   // openNotifications() {
