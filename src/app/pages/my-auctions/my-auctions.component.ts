@@ -35,9 +35,7 @@ export class MyAuctionsComponent implements OnInit {
       this.auctions.sort((a, b) => {
         const aStatus = a.status || a.auction_status;
         const bStatus = b.status || b.auction_status;
-        console.log(aStatus);
-        console.log(bStatus);
-        
+
         if (aStatus == bStatus) {
           return a.end_date > b.end_date ? 1 : -1;
         } 

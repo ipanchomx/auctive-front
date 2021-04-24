@@ -60,7 +60,6 @@ export class CreateAuctionFormComponent implements OnInit {
   }
 
   async onFileChange(event) {
-    console.log("IMGS");
     this.files = event.target.files;
     this.images = await this._imageService.processMultipleImages(event.target.files);
   }
@@ -104,7 +103,6 @@ export class CreateAuctionFormComponent implements OnInit {
     }
     this._auctionService.createAuction(auctionRequest)
       .then(res => {
-        console.log(res);
         this.inProgress = false;
         const auction: Auction = res.auction;
         this._sockets.emit("scheduleAuction", {auctionId: auction.auction_id, endDate: auction.end_date, auctionOwnerEmail: auction.owner_email})

@@ -11,7 +11,7 @@
             <h1>Upload in progress</h1>
             <mat-spinner></mat-spinner>
         </div>
-        <form *ngIf="!inProgress" name="createAuctionForm" class="example-form" style="flex: 1 1 auto" (submit)="$event.preventDefault()">
+        <form *ngIf="!inProgress" name="createAuctionForm" class="create-auction-form" (submit)="$event.preventDefault()">
             <a mat-raised-button class="example-full-width" (click)="inputFile.click()" color="primary">
                 Select Files to upload
             </a>

@@ -1,5 +1,9 @@
-.example-form {
+.create-auction-form {
     width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .example-full-width {
