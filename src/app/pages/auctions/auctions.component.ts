@@ -17,8 +17,8 @@ export class AuctionsComponent implements OnInit {
   errorMessage: String = '';
   currentUser: String;
   categories: string[] = ["Ninguna"];
-  min_price: number;
-  max_price: number;
+  minPrice: number;
+  maxPrice: number;
   categorySelected: String;
   priceMax: number;
   priceMin: number;
@@ -35,11 +35,11 @@ export class AuctionsComponent implements OnInit {
     this.currentUser = this.authService.getUserId()
     this.route.queryParams.subscribe(params => {
       const query = params.q || '';
-      const category = params.category;
-      const starting_price = params.starting_price;
-      const last_price = params.last_price;
+      this.minPrice = params.minPrice;
+      this.maxPrice = params.maxPrice;
+      this.categorySelected = params.category
       this.isLoading = true;
-      this.auctionsService.searchAuctions(query, category, starting_price, last_price)
+      this.auctionsService.searchAuctions(query, this.categorySelected, this.minPrice, this.maxPrice)
         .then((response: any) => {
           this.auctions = response.auctions;
           this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
@@ -69,6 +69,6 @@ export class AuctionsComponent implements OnInit {
   changeOnSearchFilters() {
     if(this.categorySelected == "Ninguna") this.selectedValue = undefined;
     else this.selectedValue = this.categorySelected;
-    return this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { category: this.selectedValue, starting_price: this.min_price, last_price: this.max_price} });
+    return this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { category: this.selectedValue, minPrice: this.minPrice, maxPrice: this.maxPrice} });
   }
 }

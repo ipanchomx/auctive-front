@@ -7,7 +7,7 @@
     width: 250px;
 }
 
-.loading-div{
+.loading-div {
     margin: 50px auto;
     width: 100%;
     display: flex;
@@ -18,16 +18,27 @@
     width: calc(100% - 250px);
     padding: 50px;
     height: calc(100vh - 64px);
-}    
-
-
+}
 
 h1 {
     font-size: 38px;
 }
 
-.search-filters {
+.search-filters-card {
     margin-bottom: 20px;
+}
+
+.search-filters {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    button {
+        background-color: #4a70c4;
+        border-radius: 0;
+        border: none;
+        color: #eeeded;
+    }
 }
 
 #search-title {
@@ -44,10 +55,11 @@ h1 {
 
 #price {
     display: inline-block;
-    margin: 0 10px 0 60px;
+    margin: 0;
+    margin-right: 10px;
 }
 
 #to {
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 10px;
 }

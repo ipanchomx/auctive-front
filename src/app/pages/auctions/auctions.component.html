@@ -7,31 +7,38 @@
         </div>
 
         <ng-template #auctionsList>
-            <mat-card class="search-filters">
+            <mat-card class="search-filters-card">
                 <h2 id="search-title">Search filters</h2>
-                <div style="font-size: 12px; display: inline-block;"> 
-                    <mat-form-field appearance="fill">
-                        <mat-label>Category</mat-label>
-                        <mat-select [(ngModel)]="categorySelected" name="category" >
-                          <mat-option *ngFor="let category of categories" [value]="category" (click)="changeOnSearchFilters()">{{category}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                
-                <p id="price"> Price: </p>
-                <div style="font-size: 12px; display: inline-block;">
-                    <mat-form-field appearance="fill"> 
-                        <mat-label>Starting price</mat-label>
-                        <input matInput placeholder="0.00" value="min_price" type="number" [(ngModel)]="min_price" (change)="changeOnSearchFilters()">
-                    </mat-form-field>
-                </div>
-                
-                <p id="to"> To </p>
-                <div style="font-size: 12px; display: inline-block;">
-                    <mat-form-field appearance="fill"> 
-                        <mat-label>Last price</mat-label>
-                        <input matInput placeholder="0.00" value="max_price" type="number" [(ngModel)]="max_price" (change)="changeOnSearchFilters()">
-                    </mat-form-field>
+                <div class="search-filters">
+
+                    <div style="font-size: 12px; display: inline-block;"> 
+                        <mat-form-field appearance="fill">
+                            <mat-label>Category</mat-label>
+                            <mat-select [(ngModel)]="categorySelected" name="category" >
+                              <mat-option *ngFor="let category of categories" [value]="category" >{{category}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div style="display: flex; align-items:center">
+                        <p id="price"> Price: </p>
+                        <div style="font-size: 12px;">
+                            <mat-form-field appearance="fill"> 
+                                <mat-label>Min price</mat-label>
+                                <input matInput placeholder="0.00" value="minPrice" type="number" [(ngModel)]="minPrice">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <p id="to"> To </p>
+                    <div style="font-size: 12px; display: inline-block;">
+                        <mat-form-field appearance="fill"> 
+                            <mat-label>Max price</mat-label>
+                            <input matInput placeholder="0.00" value="maxPrice" type="number" [(ngModel)]="maxPrice">
+                        </mat-form-field>
+                    </div>
+    
+                    <button (click)="changeOnSearchFilters()">Search</button>
                 </div>
 
             </mat-card>
