@@ -30,29 +30,33 @@
                 <textarea matInput name="description" [(ngModel)]="description" rows="2"></textarea>
             </mat-form-field>
 
+            <div> 
             <label>Category:</label>
-            <mat-form-field appearance="fill" class="pickCategory">
-                <mat-label>Choose an option</mat-label>
-                <mat-select [(ngModel)]="category" name="categoryPicker">
-                    <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="fill" class="pickCategory">
+                    <mat-label>Choose an option</mat-label>
+                    <mat-select [(ngModel)]="category" name="categoryPicker">
+                        <mat-option *ngFor="let cat of categories" [value]="cat">{{cat}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-            <label>Price:</label>
-            <div class="price-values">
-                <div style="font-size: 14px; display: inline-block;">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Starting price</mat-label>
-                        <input matInput type="number" name="startingPrice" value="{{startingPrice}}"
-                            [(ngModel)]="startingPrice">
-                    </mat-form-field>
-                </div>
-                <div style="font-size: 14px; display: inline-block;">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Buy now price</mat-label>
-                        <input matInput type="number" name="buyNowPrice" value="{{buyNowPrice}}" min="{{startingPrice}}"
-                            [(ngModel)]="buyNowPrice">
-                    </mat-form-field>
+            <div>
+                <label>Price:</label>
+                <div class="price-values">
+                    <div style="font-size: 14px; display: inline-block;">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Starting price</mat-label>
+                            <input matInput type="number" name="startingPrice" value="{{startingPrice}}"
+                                [(ngModel)]="startingPrice">
+                        </mat-form-field>
+                    </div>
+                    <div style="font-size: 14px; display: inline-block;">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Buy now price</mat-label>
+                            <input matInput type="number" name="buyNowPrice" value="{{buyNowPrice}}" min="{{startingPrice}}"
+                                [(ngModel)]="buyNowPrice">
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
 
