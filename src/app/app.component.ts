@@ -13,6 +13,8 @@ export class AppComponent {
   constructor(private authService: AuthService, private _socket: SocketsService){
     if(this.authService.isLoggedIn()){
       this._socket.connect(this.authService.get(), this.authService.getUserId());
+      //TODO: Get auction subscriptions and do socket subscription.
+      //TODO: Get my auctions and do socket subscription.
     }
   }
 }

@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
   loginForm: FormGroup;
   constructor(private formBuilder: FormBuilder, private sessionService: SessionService, private _snackBar: MatSnackBar, private authService: AuthService, private router: Router, private _socket: SocketsService
 
-    ) { }
+  ) { }
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
   verticalPosition: MatSnackBarVerticalPosition = "top";
@@ -79,6 +79,8 @@ export class SignUpComponent implements OnInit {
         this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
         this._socket.connect(this.authService.get(), this.authService.getUserId());
+        //TODO: Get auction subscriptions and do socket subscription.
+        //TODO: Get my auctions and do socket subscription.
         this.router.navigate(["/auctions"])
       }).catch(err => {
         console.log(err);
