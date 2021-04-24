@@ -16,7 +16,7 @@ export class MyAuctionsComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: String = '';
   currentUser: String;
-  
+
   constructor(
     private auctionsService: AuctionsService,
     private _matDialog: MatDialog,
@@ -30,9 +30,19 @@ export class MyAuctionsComponent implements OnInit {
 
   getMyAuctions() {
     this.isLoading = true;
-    this.auctionsService.getMyAuctions().then((data:any) => {
+    this.auctionsService.getMyAuctions().then((data: any) => {
       this.auctions = data.auctions;
-      this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
+      this.auctions.sort((a, b) => {
+        const aStatus = a.status || a.auction_status;
+        const bStatus = b.status || b.auction_status;
+        console.log(aStatus);
+        console.log(bStatus);
+        
+        if (aStatus == bStatus) {
+          return a.end_date > b.end_date ? 1 : -1;
+        } 
+        return (aStatus == "OPEN" ? 1 : 0);
+      });
       this.isLoading = false;
       this.errorMessage = "";
     }).catch((err => {
@@ -57,7 +67,7 @@ export class MyAuctionsComponent implements OnInit {
 
     dialogRef.afterClosed()
       .subscribe(result => {
-        if(result) this.getMyAuctions();
+        if (result) this.getMyAuctions();
       });
   }
 }
