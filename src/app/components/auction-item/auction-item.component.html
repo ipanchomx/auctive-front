@@ -6,7 +6,7 @@
         <h3>Current Price: {{(auctionInfo.current_price && auctionInfo.current_price>0)? ('$'+ auctionInfo.current_price) : '-' }}</h3>
         <p>Starting Price: ${{auctionInfo.starting_price}}</p>
 
-        <p *ngIf="auctionInfo.finished; else timeLeft" class="time-left">Auction has ended</p>
+        <p *ngIf="auctionInfo.finished || auctionInfo.status=='CLOSED' || auctionInfo.auction_status=='CLOSED'; else timeLeft" class="time-left">Auction has ended</p>
         <ng-template #timeLeft>
             <p *ngIf="auctionInfo.days<1; else daysLeft" class="time-left">
                 <countdown [config]="{stopTime: auctionInfo.end_timestamp  }" class="time-left"></countdown>
