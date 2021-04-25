@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/global/services/auth.service';
 import { Router } from '@angular/router';
 
 import { SocketsService } from 'src/app/global/services/sockets.service';
+import { AuctionsService } from 'src/app/global/services/auctions.service';
+import { Auction } from 'src/app/global/models/auction.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,8 +21,15 @@ import { SocketsService } from 'src/app/global/services/sockets.service';
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   loginForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private sessionService: SessionService, private _snackBar: MatSnackBar, private authService: AuthService, private router: Router, private _socket: SocketsService
 
+  constructor(
+    private formBuilder: FormBuilder, 
+    private sessionService: SessionService, 
+    private _snackBar: MatSnackBar, 
+    private authService: AuthService, 
+    private auctionService: AuctionsService,
+    private router: Router, 
+    private _socket: SocketsService
   ) { }
 
   horizontalPosition: MatSnackBarHorizontalPosition = "center";
@@ -73,24 +82,41 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  login() {
+  async login() {
     if (this.loginForm.valid) {
-      this.sessionService.login(this.loginForm.getRawValue()).then(data => {
+      try {
+        const data = await this.sessionService.login(this.loginForm.getRawValue());
         this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
         this._socket.connect(this.authService.get(), this.authService.getUserId());
-        //TODO: Get auction subscriptions and do socket subscription.
-        //TODO: Get my auctions and do socket subscription.
-        this.router.navigate(["/auctions"])
-      }).catch(err => {
-        console.log(err);
 
-        const snack = this._snackBar.open(`Unable to login - ${err.error.message}`, "Close", {
+        const myAuctionsRes: any = await this.auctionService.getMyAuctions();
+        const myAuctions: Auction[] = myAuctionsRes.auctions;
+
+        const auctionSubscriptionsIdsRes:any = await this.auctionService.getAuctionSubscriptions();
+
+        const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any)=>value.auctionId);
+
+        const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
+
+        const auctionSubs: Auction[] = auctionSubsRes.auctions || [];
+
+        const auctions = [...myAuctions, ...auctionSubs];
+
+        this._socket.emit('subscribeToAuctions', {auctions});
+        this.router.navigate(["/auctions"])
+
+      } catch (error) {
+      
+        console.log(error);
+
+        const snack = this._snackBar.open(`Unable to login - ${error.error.message}`, "Close", {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         })
         snack._dismissAfter(3000);
-      })
+      }
+
     }
   }
 }
