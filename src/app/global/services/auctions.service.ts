@@ -62,6 +62,17 @@ export class AuctionsService {
     }).toPromise();
   }
 
+  removeAuctionSubscription(auctionId){
+    const url = `${environment.apiUrl}/auctions/interested/${auctionId}`;
+    const headers = new HttpHeaders({
+      Authorization: this._authService.get()
+    });
+
+    return this.httpClient.delete(url, {
+      headers
+    }).toPromise();
+  }
+
   getAuctionsByList(auctionIds: any) {
     const url = `${environment.apiUrl}/auctions/list`;
     const headers = new HttpHeaders({
