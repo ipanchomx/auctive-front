@@ -3,6 +3,22 @@
     height: calc(100vh - 64px);
 }
 
+.my-auctions-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .auction-item {
+        flex: 1;
+    }
+
+    .auction-checkbox {
+        margin-right: 10px;
+    }
+}
+
+
 .sidebar-drawer {
     width: 250px;
 }

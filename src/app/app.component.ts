@@ -39,7 +39,6 @@ export class AppComponent {
     const auctions = [...myAuctions, ...auctionSubs];
 
     this._socket.emit('subscribeToAuctions', { auctions });
-    console.log("Subscribed to all auctions");
   }
 }
 

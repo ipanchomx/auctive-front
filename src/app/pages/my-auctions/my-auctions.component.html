@@ -14,9 +14,10 @@
                 <h1 *ngIf="!auctions.length">You have no auctions.</h1>
             </ng-template>
 
-            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
+            <app-auction-item *ngFor="let auction of auctions" [auction]="auction" class="auction-item"
                 [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
             </app-auction-item>
+
         </ng-template>
     </mat-drawer-content>
 

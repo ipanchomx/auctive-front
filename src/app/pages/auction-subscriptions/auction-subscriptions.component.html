@@ -1,4 +1,3 @@
-
 <mat-drawer-container class="auctions-container">
 
     <mat-drawer-content class="auctions-main">
@@ -10,15 +9,23 @@
         </div>
 
         <ng-template #auctionsList>
+
             <h1 *ngIf="auctions.length > 0; else noAuctions">My Auction Subscriptions</h1>
+
 
             <ng-template #noAuctions>
                 <h1>You have no auction subscriptions.</h1>
             </ng-template>
 
-            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
-                [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
-            </app-auction-item>
+            <button mat-raised-button color="accent" *ngIf="auctions.length"[disabled]="selectedAuctionsSize==0" (click)="deleteMyAuctions()" >
+                Unsubscribe from auction.
+            </button>
+            <div *ngFor="let auction of auctions" class="my-auctions-item">
+                <mat-checkbox class="auction-checkbox" (change)="selectAuction($event.checked, auction)"></mat-checkbox>
+                <app-auction-item class="auction-item" [auction]="auction"
+                    [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
+                </app-auction-item>
+            </div>
         </ng-template>
     </mat-drawer-content>
 
