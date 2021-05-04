@@ -23,7 +23,6 @@ import { User } from 'src/app/global/models/user.model';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  //TODO: Create a model to have all user attributes.
   passwordForm: FormGroup;
   editableName: boolean = false;
   nameError: boolean = false;
@@ -46,11 +45,20 @@ export class SettingsComponent implements OnInit {
     private router: Router,
     private socketsService: SocketsService,
     private _matDialog: MatDialog,
-    private _user: UserService
+    private _user: UserService,
+    private _socketService: SocketsService
   ) { }
 
 
   ngOnInit(): void {
+    this._socketService.on('verificationUpdate', data =>{
+      this.getUserInfo();
+      const snack = this._snackBar.open(data.message, "Close", {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+      snack._dismissAfter(3000);
+    })
     this.passwordForm = this.formBuilder.group({
       current: ['', Validators.required],
       new: ['', [Validators.required, Validators.minLength(6)]],
@@ -108,9 +116,6 @@ export class SettingsComponent implements OnInit {
       snack._dismissAfter(3000);
     }
   }
-
-
-
 
   comparePasswords() {
     if (!this.passwordForm) { return null; }
