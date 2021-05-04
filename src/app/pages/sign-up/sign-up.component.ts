@@ -95,11 +95,14 @@ export class SignUpComponent implements OnInit {
 
         const auctionSubscriptionsIdsRes:any = await this.auctionService.getAuctionSubscriptions();
 
-        const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any)=>value.auctionId);
+        let auctionSubs: Auction[] = [];
+        if(auctionSubscriptionsIdsRes.length)
+        {
+          const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any)=>value.auctionId);
+          const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
 
-        const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
-
-        const auctionSubs: Auction[] = auctionSubsRes.auctions || [];
+          auctionSubs = auctionSubsRes.auctions || [];
+        }
 
         const auctions = [...myAuctions, ...auctionSubs];
 
