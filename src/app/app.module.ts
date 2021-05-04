@@ -23,6 +23,8 @@ import { AuctionItemComponent } from './components/auction-item/auction-item.com
 import { AuctionSubscriptionsComponent } from './pages/auction-subscriptions/auction-subscriptions.component';
 import { MyAuctionsComponent } from './pages/my-auctions/my-auctions.component';
 import { CreateAuctionFormComponent } from './dialogs/create-auction-dialog/create-auction-form.component';
+import { AuctionDetailComponent } from './pages/auction-detail/auction-detail.component';
+import { Page404Component } from './pages/page404/page404.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { CreateAuctionFormComponent } from './dialogs/create-auction-dialog/crea
     AuctionItemComponent,
     AuctionSubscriptionsComponent,
     MyAuctionsComponent,
-    CreateAuctionFormComponent
+    CreateAuctionFormComponent,
+    AuctionDetailComponent,
+    Page404Component
   ],
   imports: [
     BrowserModule,
