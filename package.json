@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "serve": "ng serve",
+    "deploy": "node load_envs.js && ng build --prod",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,6 +23,7 @@
     "@angular/platform-browser": "~10.2.0",
     "@angular/platform-browser-dynamic": "~10.2.0",
     "@angular/router": "~10.2.0",
+    "dotenv": "^8.2.0",
     "ngx-countdown": "^11.0.3",
     "rxjs": "~6.6.0",
     "socket.io-client": "^4.0.1",
