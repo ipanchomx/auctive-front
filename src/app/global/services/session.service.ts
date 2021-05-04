@@ -13,7 +13,7 @@ export class SessionService {
   constructor(private httpClient:HttpClient, private authService:AuthService) { }
 
   signup(data:any):Promise<any> {
-    const url = `${environment.apiUrl}/users/register`;
+    const url = `${environment.apiUrl}/users`;
     return this.httpClient.post(url, data).toPromise();
   }
 
