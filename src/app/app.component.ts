@@ -24,21 +24,24 @@ export class AppComponent {
   }
 
   async initialize() {
-
-    const myAuctionsRes: any = await this.auctionService.getMyAuctions();
-    const myAuctions: Auction[] = myAuctionsRes.auctions;
-
-    const auctionSubscriptionsIdsRes: any = await this.auctionService.getAuctionSubscriptions();
-
-    const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any) => value.auctionId);
-
-    const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
-
-    const auctionSubs: Auction[] = auctionSubsRes.auctions || [];
-
-    const auctions = [...myAuctions, ...auctionSubs];
-
-    this._socket.emit('subscribeToAuctions', { auctions });
+    try { 
+      const myAuctionsRes: any = await this.auctionService.getMyAuctions();
+      const myAuctions: Auction[] = myAuctionsRes.auctions;
+  
+      const auctionSubscriptionsIdsRes: any = await this.auctionService.getAuctionSubscriptions();
+  
+      const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any) => value.auctionId);
+  
+      const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
+  
+      const auctionSubs: Auction[] = auctionSubsRes.auctions || [];
+  
+      const auctions = [...myAuctions, ...auctionSubs];
+  
+      this._socket.emit('subscribeToAuctions', { auctions });
+    } catch (error) {
+      console.log("Could not get my auction");
+    }
   }
 }
 

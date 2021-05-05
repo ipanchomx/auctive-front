@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
         this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
         this._socket.connect(this.authService.get(), this.authService.getUserId());
-
+        
         const myAuctionsRes: any = await this.auctionService.getMyAuctions();
         const myAuctions: Auction[] = myAuctionsRes.auctions;
 

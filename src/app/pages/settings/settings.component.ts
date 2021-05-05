@@ -152,6 +152,8 @@ export class SettingsComponent implements OnInit {
       this.userInfo = data.user;
       this.userInfo.image_url = this.userInfo.image_url || "/assets/images/default-profile-pic.jpg";
       this.isLoading = false;
+    }).catch(()=>{
+      console.log("Could not get user");
     })
   }
 

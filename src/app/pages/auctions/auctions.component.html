@@ -1,53 +1,56 @@
 <mat-drawer-container class="auctions-container">
 
     <mat-drawer-content class="auctions-main">
-        <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
-        <div *ngIf="isLoading; else auctionsList" class="loading-div">
-            <mat-spinner></mat-spinner>
-        </div>
+        <h1 *ngIf="errorMessage; else results">{{errorMessage}}</h1>
 
-        <ng-template #auctionsList>
-            <mat-card class="search-filters-card">
-                <h2 id="search-title">Search filters</h2>
-                <div class="search-filters">
-
-                    <div style="font-size: 12px; display: inline-block;"> 
-                        <mat-form-field appearance="fill">
-                            <mat-label>Category</mat-label>
-                            <mat-select [(ngModel)]="categorySelected" name="category" >
-                              <mat-option *ngFor="let category of categories" [value]="category" >{{category}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    
-                    <div style="display: flex; align-items:center">
-                        <p id="price"> Price: </p>
-                        <div style="font-size: 12px;">
-                            <mat-form-field appearance="fill"> 
-                                <mat-label>Min price</mat-label>
-                                <input matInput placeholder="0.00" value="minPrice" type="number" [(ngModel)]="minPrice">
+        <ng-template #results>
+            <div  *ngIf="isLoading; else auctionsList" class="loading-div">
+                <mat-spinner></mat-spinner>
+            </div>
+            <ng-template #auctionsList>
+                <mat-card class="search-filters-card">
+                    <h2 id="search-title">Search filters</h2>
+                    <div class="search-filters">
+    
+                        <div style="font-size: 12px; display: inline-block;"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>Category</mat-label>
+                                <mat-select [(ngModel)]="categorySelected" name="category" >
+                                  <mat-option *ngFor="let category of categories" [value]="category" >{{category}}</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    
-                    <p id="to"> To </p>
-                    <div style="font-size: 12px; display: inline-block;">
-                        <mat-form-field appearance="fill"> 
-                            <mat-label>Max price</mat-label>
-                            <input matInput placeholder="0.00" value="maxPrice" type="number" [(ngModel)]="maxPrice">
-                        </mat-form-field>
+                        
+                        <div style="display: flex; align-items:center">
+                            <p id="price"> Price: </p>
+                            <div style="font-size: 12px;">
+                                <mat-form-field appearance="fill"> 
+                                    <mat-label>Min price</mat-label>
+                                    <input matInput placeholder="0.00" value="minPrice" type="number" [(ngModel)]="minPrice">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <p id="to"> To </p>
+                        <div style="font-size: 12px; display: inline-block;">
+                            <mat-form-field appearance="fill"> 
+                                <mat-label>Max price</mat-label>
+                                <input matInput placeholder="0.00" value="maxPrice" type="number" [(ngModel)]="maxPrice">
+                            </mat-form-field>
+                        </div>
+        
+                        <button (click)="changeOnSearchFilters()">Search</button>
                     </div>
     
-                    <button (click)="changeOnSearchFilters()">Search</button>
-                </div>
-
-            </mat-card>
-
-            <h1>Search results</h1>
-            <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
-                [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
-            </app-auction-item>
+                </mat-card>
+    
+                <h1>Search results</h1>
+                <app-auction-item *ngFor="let auction of auctions" [auction]="auction"
+                    [winning]="(auction.bid_winner==currentUser)?'Won':(auction.current_bidder==currentUser)?'Winning': ''">
+                </app-auction-item>
+            </ng-template>
         </ng-template>
+
     </mat-drawer-content>
 
     <mat-drawer mode="side" opened class="sidebar-drawer">

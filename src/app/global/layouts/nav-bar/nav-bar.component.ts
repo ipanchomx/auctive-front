@@ -52,6 +52,9 @@ export class NavBarComponent implements OnInit {
         .then(res => {
           this.name = res.user.name;
         })
+        .catch(()=>{
+          console.log("Could not get user info");
+        });
     }
   }
 

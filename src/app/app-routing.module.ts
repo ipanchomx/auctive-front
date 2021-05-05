@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'my-auctions', component: MyAuctionsComponent, canActivate: [AuthGuard] },
   { path: 'my-auction-subscriptions', component: AuctionSubscriptionsComponent, canActivate: [AuthGuard] },
-  { path: "auction-info/:id", component: AuctionDetailComponent, canActivate: [AuthGuard]},
+  { path: "auctions/:id", component: AuctionDetailComponent, canActivate: [AuthGuard]},
   { path: '**', component: Page404Component }
 ];
 
