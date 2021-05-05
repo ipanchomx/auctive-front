@@ -1,9 +1,9 @@
 {
   "name": "auctive-front",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
-    "node": ">=14.15.0",
-    "npm": ">=7.8.0"
+    "node": "=14.15.0",
+    "npm": "=7.8.0"
   },
   "scripts": {
     "ng": "ng",
