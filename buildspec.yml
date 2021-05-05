@@ -1,0 +1,21 @@
+version: 0.2
+
+phases: 
+    install:
+        runtime-versions:
+            nodejs: 14
+        commands: 
+            - echo "installing nodejs"
+    pre_build:
+        commands:
+            - echo "installing angular-cli"
+            - npm install -g @angular/cli
+            - echo "installing npm dependencies"
+            - npm install   
+    build:
+        commands:
+            - echo "building..."
+            - npm run deploy
+    post_build:
+        commands:
+            - echo "finishing details"
