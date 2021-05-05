@@ -10,8 +10,8 @@ const envConfigFile = `export const environment = {
    apiUrl: "${process.env.API_URL}",
    ibmApiUrl: "${process.env.IBM_API_URL}",
    socketUrl: "${process.env.SOCKET_URL}",
-};
-`;
+   production: true
+};`;
 
 fs.writeFile(targetPath, envConfigFile, function (err) {
    if (err) {
