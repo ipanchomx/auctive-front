@@ -1,11 +1,82 @@
 <div class="detail-page">
-    <div class="detail-info">
-        <div class="container">
-            <carousel [slides]="slides"></carousel>
-        </div>
-    
-        <div class="auction-info">
-            <h1>Info</h1>
-        </div>
+    <div *ngIf="isLoading; else auctionDetail"
+        style="width: 100%; display: flex; align-items: center; flex-direction: column;">
+        <mat-spinner></mat-spinner>
     </div>
+
+    <ng-template #auctionDetail>
+        <div class="detail-info">
+            <div class="column">
+                <div class="container">
+                    <carousel [slides]="slides"></carousel>
+                </div>
+                <button mat-raised-button>Subscribe to auction</button>
+            </div>
+
+            <div *ngIf="auction" class="auction-info">
+                <h1 class="auction-title">{{auction.title}}</h1>
+
+                <div>
+                    <h2>Description</h2>
+                    <p class="auction-description">{{auction.description}}</p>
+                </div>
+
+                <div>
+
+                    <h2>Category</h2>
+                    <p>
+                        {{auction.category}}
+                    </p>
+                </div>
+
+                <div>
+                    <h2>Seller</h2>
+                    <p>{{auction.owner_email}}</p>
+                </div>
+
+                <div>
+                    <h2>Time Remaining</h2>
+                    <p *ngIf="finished || auction.status=='CLOSED' || auction.auction_status=='CLOSED'; else timeLeft"
+                        class="time-left">Auction has ended</p>
+
+                    <ng-template #timeLeft>
+                        <p *ngIf="diffDays<1; else daysLeft" class="time-left">
+                            <countdown [config]="{stopTime: end_timestamp  }" class="time-left"></countdown>
+                        </p>
+                        <ng-template #daysLeft>
+                            <p class="time-left">{{diffDays}} days left</p>
+                        </ng-template>
+                    </ng-template>
+                </div>
+
+
+                <div *ngIf="!finished && (!auction.status || auction.status!='CLOSED') && (!auction.auction_status || auction.auction_status!='CLOSED')" class="bid-container">
+                    <div class="current-offer">
+                        <h2>Current offer:</h2>
+                        <p>{{(auction.current_price)? '$'+ auction.current_price.toFixed(2) : '-'}}</p>
+                    </div>
+
+                    <div class="bid-input">
+                        <p class="prefix-icon">$</p>
+                        <div class="bid-input-control">
+                            <input type="number" name="new bid" id="newBid" placeholder="enter your bid" [(ngModel)]="newBid" >
+                        </div>
+                        <button mat-raised-button color="accent" (click)="newBid()">Place bid</button>
+                    </div>
+
+                    <button mat-raised-button color="primary">Buy Now for ${{auction.buy_now_price.toFixed(2)}}</button>
+                </div>
+
+                <div>
+                    <h2>Tags:</h2>
+                    <mat-chip-list aria-label="Auction tags" selectable="false">
+                        <mat-chip color="accent" selected *ngFor="let tag of auction.tags; let i=index;">
+                            {{tag}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+
+            </div>
+        </div>
+    </ng-template>
 </div>

@@ -40,6 +40,12 @@ export class AuctionsService {
     }).toPromise();
   }
 
+  getAuctionById(auctionId: string){
+    const url = `${environment.apiUrl}/auctions/get/${auctionId}`;
+
+    return this.httpClient.get(url).toPromise();
+  }
+
   getMyAuctions() {
     const url = `${environment.apiUrl}/auctions/get-my-auctions`;
     const headers = new HttpHeaders({

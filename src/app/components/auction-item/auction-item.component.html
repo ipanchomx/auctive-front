@@ -1,4 +1,4 @@
-<mat-card class="auction-card">
+<mat-card class="auction-card" (click)="goToAuctionDetail()">
     <img class="auction-image" src="{{auctionInfo.product_img_urls[0]}}">
     <div class="auction-info">
         <h2>{{auctionInfo.title}}</h2>

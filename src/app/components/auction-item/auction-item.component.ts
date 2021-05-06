@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Auction } from 'src/app/global/models/auction.model';
 
 @Component({
@@ -10,7 +11,9 @@ export class AuctionItemComponent implements OnInit {
   @Input() auction: Auction;
   @Input() winning: string;
   auctionInfo: any;
-  constructor() { }
+  constructor(
+    private _router: Router
+  ) { }
 
   ngOnInit(): void {
     this.auctionInfo = this.auction;
@@ -21,6 +24,10 @@ export class AuctionItemComponent implements OnInit {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     this.auctionInfo.finished = diffTime<=0;
     this.auctionInfo.days = diffDays;
+  }
+
+  goToAuctionDetail(){
+    this._router.navigate(['/auctions', this.auction.auction_id]);
   }
 
 }
