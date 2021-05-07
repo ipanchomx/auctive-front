@@ -10,7 +10,7 @@
                 <div class="container">
                     <carousel [slides]="slides"></carousel>
                 </div>
-                <button mat-raised-button>Subscribe to auction</button>
+                <button mat-raised-button [disabled]="userEmail==auction.owner_email" (click)="subscribeToAuction()">Subscribe to auction</button>
             </div>
 
             <div *ngIf="auction" class="auction-info">
@@ -53,18 +53,18 @@
                 <div *ngIf="!finished && (!auction.status || auction.status!='CLOSED') && (!auction.auction_status || auction.auction_status!='CLOSED')" class="bid-container">
                     <div class="current-offer">
                         <h2>Current offer:</h2>
-                        <p>{{(auction.current_price)? '$'+ auction.current_price.toFixed(2) : '-'}}</p>
+                        <p>{{(auction.current_price>0)? '$'+ auction.current_price.toFixed(2) : '-'}}</p>
                     </div>
 
                     <div class="bid-input">
                         <p class="prefix-icon">$</p>
                         <div class="bid-input-control">
-                            <input type="number" name="new bid" id="newBid" placeholder="enter your bid" [(ngModel)]="newBid" >
+                            <input type="number" name="new bid" id="newBid" placeholder="{{(auction.current_price>0)?auction.current_price+1:auction.starting_price}}" [(ngModel)]="newBid" >
                         </div>
-                        <button mat-raised-button color="accent" (click)="newBid()">Place bid</button>
+                        <button mat-raised-button color="accent" [disabled]="userEmail==auction.owner_email || !newBid || newBid < auction.current_price + 1 || newBid < auction.starting_price" (click)="newBid()">Place bid</button>
                     </div>
 
-                    <button mat-raised-button color="primary">Buy Now for ${{auction.buy_now_price.toFixed(2)}}</button>
+                    <button mat-raised-button color="primary" [disabled]="userEmail==auction.owner_email">Buy Now for ${{auction.buy_now_price.toFixed(2)}}</button>
                 </div>
 
                 <div>

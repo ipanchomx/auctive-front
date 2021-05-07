@@ -21,14 +21,15 @@ import { Auction } from 'src/app/global/models/auction.model';
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   loginForm: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private sessionService: SessionService, 
-    private _snackBar: MatSnackBar, 
-    private authService: AuthService, 
+    private formBuilder: FormBuilder,
+    private sessionService: SessionService,
+    private _snackBar: MatSnackBar,
+    private authService: AuthService,
     private auctionService: AuctionsService,
-    private router: Router, 
+    private router: Router,
     private _socket: SocketsService
   ) { }
 
@@ -54,6 +55,7 @@ export class SignUpComponent implements OnInit {
 
   createUser() {
     if (this.signupForm.valid) {
+      this.isLoading = true;
       this.sessionService.signup(this.signupForm.getRawValue()).then(data => {
         const snack = this._snackBar.open("User successfully created", "Close", {
           horizontalPosition: this.horizontalPosition,
@@ -66,7 +68,10 @@ export class SignUpComponent implements OnInit {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         })
-      });
+      })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   }
 
@@ -85,20 +90,20 @@ export class SignUpComponent implements OnInit {
   async login() {
     if (this.loginForm.valid) {
       try {
+        this.isLoading = true;
         const data = await this.sessionService.login(this.loginForm.getRawValue());
         this.authService.saveUserId(this.loginForm.getRawValue().email);
         this.authService.save(data.token)
         this._socket.connect(this.authService.get(), this.authService.getUserId());
-        
+
         const myAuctionsRes: any = await this.auctionService.getMyAuctions();
         const myAuctions: Auction[] = myAuctionsRes.auctions;
 
-        const auctionSubscriptionsIdsRes:any = await this.auctionService.getAuctionSubscriptions();
+        const auctionSubscriptionsIdsRes: any = await this.auctionService.getAuctionSubscriptions();
 
         let auctionSubs: Auction[] = [];
-        if(auctionSubscriptionsIdsRes.length)
-        {
-          const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any)=>value.auctionId);
+        if (auctionSubscriptionsIdsRes.length) {
+          const auctionSubscriptionIds: string[] = auctionSubscriptionsIdsRes.auctions.map((value: any) => value.auctionId);
           const auctionSubsRes: any = await this.auctionService.getAuctionsByList(auctionSubscriptionIds);
 
           auctionSubs = auctionSubsRes.auctions || [];
@@ -106,13 +111,14 @@ export class SignUpComponent implements OnInit {
 
         const auctions = [...myAuctions, ...auctionSubs];
 
-        this._socket.emit('subscribeToAuctions', {auctions});
+        this._socket.emit('subscribeToAuctions', { auctions });
+        this.isLoading = false;
         this.router.navigate(["/auctions"])
-
       } catch (error) {
-      
+        
         console.log(error);
-
+        this.isLoading = false;
+        
         const snack = this._snackBar.open(`Unable to login - ${error.error.message}`, "Close", {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,

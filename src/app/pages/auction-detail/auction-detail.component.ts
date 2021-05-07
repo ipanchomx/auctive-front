@@ -93,7 +93,7 @@ export class AuctionDetailComponent implements OnInit {
   }
 
   subscribeToAuction() {
-
+    this._sockets.emit('subscribeToAuction', {auctionId: this.auctionId});
   }
 
 }

@@ -1,86 +1,96 @@
 <div class="session-container">
 
-  <div class="register-container">
-
-    <div class="login">
-  
-      <h1>Log In</h1>
-      <p class="form-info">Sign in with your email and password</p>
-  
-  
-      <form class="loginForm" [formGroup]="loginForm" (submit)="login()">
-  
-        <mat-form-field class="emailInput">
-          <mat-label>Email</mat-label>
-          <input type="email" id="emailInput" matInput placeholder="Ex. pat@example.com" formControlName="email">
-        </mat-form-field>
-  
-        <mat-form-field>
-          <mat-label>Password</mat-label> <input id="passwordInput" type="password" matInput  autocomplete="false" formControlName="password">
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" id="loginButton">LOGIN</button>
-  
-      </form>
-  
-    </div>
-    
-
-
-    <div class="signup">
-      <h1>Register</h1>
-      <p class="form-info">Sign up with your email and password</p>
-  
-      <form class="singupForm" [formGroup]="signupForm" (submit)="createUser()">
-  
-        <mat-form-field class="emailInput">
-          <mat-label>Email</mat-label>
-          <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email">
-  
-          <mat-error *ngIf="signupForm.controls.email.errors">
-            Please enter a valid email address
-          </mat-error>
-  
-        </mat-form-field>
-  
-
-  
-        <mat-form-field>
-          <mat-label>Full Name</mat-label> <input matInput formControlName="name">
-          <mat-error *ngIf="signupForm.controls.name.errors">
-            Cannot leave name empty
-          </mat-error>
-        </mat-form-field>
-  
-
-  
-        <mat-form-field>
-          <mat-label>Password</mat-label> <input autocomplete="false" type="password" matInput formControlName="password">
-          <mat-error *ngIf="signupForm.controls.password.errors">
-            Password length must be more than 6 characters.
-          </mat-error>
-        </mat-form-field>
-  
-
-  
-        <mat-form-field>
-          <mat-label>Confirm password</mat-label> <input autocomplete="false" type="password" matInput formControlName="confirm">
-        </mat-form-field>
-  
-        <mat-error *ngIf="signupForm.errors && signupForm.errors.mismatch">
-          Passwords do not match.
-        </mat-error>
-  
-
-  
-        <button mat-raised-button color="accent">SIGN UP</button>
-  
-  
-  
-      </form>
-    </div>
-  
+  <div class="spinner" *ngIf="isLoading; else signupPage"
+    style="width: 100%; height: 100%; display: flex; align-items: center; flex-direction: column;">
+    <mat-spinner color="accent"></mat-spinner>
   </div>
-  
+  <ng-template #signupPage>
+
+    <div class="register-container">
+
+      <div class="login">
+
+        <h1>Log In</h1>
+        <p class="form-info">Sign in with your email and password</p>
+
+
+        <form class="loginForm" [formGroup]="loginForm" (submit)="login()">
+
+          <mat-form-field class="emailInput">
+            <mat-label>Email</mat-label>
+            <input type="email" id="emailInput" matInput placeholder="Ex. pat@example.com" formControlName="email">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label> <input id="passwordInput" type="password" matInput autocomplete="false"
+              formControlName="password">
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" id="loginButton">LOGIN</button>
+
+        </form>
+
+      </div>
+
+
+
+      <div class="signup">
+        <h1>Register</h1>
+        <p class="form-info">Sign up with your email and password</p>
+
+        <form class="singupForm" [formGroup]="signupForm" (submit)="createUser()">
+
+          <mat-form-field class="emailInput">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email">
+
+            <mat-error *ngIf="signupForm.controls.email.errors">
+              Please enter a valid email address
+            </mat-error>
+
+          </mat-form-field>
+
+
+
+          <mat-form-field>
+            <mat-label>Full Name</mat-label> <input matInput formControlName="name">
+            <mat-error *ngIf="signupForm.controls.name.errors">
+              Cannot leave name empty
+            </mat-error>
+          </mat-form-field>
+
+
+
+          <mat-form-field>
+            <mat-label>Password</mat-label> <input autocomplete="false" type="password" matInput
+              formControlName="password">
+            <mat-error *ngIf="signupForm.controls.password.errors">
+              Password length must be more than 6 characters.
+            </mat-error>
+          </mat-form-field>
+
+
+
+          <mat-form-field>
+            <mat-label>Confirm password</mat-label> <input autocomplete="false" type="password" matInput
+              formControlName="confirm">
+          </mat-form-field>
+
+          <mat-error *ngIf="signupForm.errors && signupForm.errors.mismatch">
+            Passwords do not match.
+          </mat-error>
+
+
+
+          <button mat-raised-button color="accent">SIGN UP</button>
+
+
+
+        </form>
+      </div>
+
+    </div>
+  </ng-template>
+
 
 </div>
