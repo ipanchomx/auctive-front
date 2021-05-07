@@ -76,7 +76,6 @@ export class AuctionSubscriptionsComponent implements OnInit {
 
     })
       .then(auctionIds => {
-        console.log(auctionIds);
         if (!auctionIds.length) return [];
         return this.auctionsService.getAuctionsByList(auctionIds)
       })

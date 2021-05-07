@@ -59,6 +59,14 @@
         color: green;
     }
 
+    .bidLoading {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .bid-container {
         width: 450px;
         background-color: #f8f8f8;

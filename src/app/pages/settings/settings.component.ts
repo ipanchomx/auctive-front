@@ -166,7 +166,6 @@ export class SettingsComponent implements OnInit {
         this.phoneError = false;
         this._user.changePhoneNumber(this.userInfo.phone_number)
           .then(msg => {
-            console.log(msg);
             const snack = this._snackBar.open(msg.message, "Close", {
               horizontalPosition: this.horizontalPosition,
               verticalPosition: this.verticalPosition,

@@ -107,7 +107,7 @@ export class CreateAuctionFormComponent implements OnInit {
         const auction: Auction = res.auction;
         this._sockets.emit("scheduleAuction", {auctionId: auction.auction_id, endDate: auction.end_date, auctionOwnerEmail: auction.owner_email})
         this._dialogRef.close(res.auction);
-        const snackbarRef = this._snackBar.open("File uploaded successfully", "Close", {
+        const snackbarRef = this._snackBar.open("Auction created successfully", "Close", {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         })
@@ -116,7 +116,7 @@ export class CreateAuctionFormComponent implements OnInit {
       .catch(res => {
         this.inProgress = false;
         console.log(res)
-        const snackbarRef = this._snackBar.open(`Unable to Upload File - ${''}`, "Close", {
+        const snackbarRef = this._snackBar.open(`Unable to create auction - ${''}`, "Close", {
               horizontalPosition: 'center',
               verticalPosition: 'top'
             })

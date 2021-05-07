@@ -52,10 +52,10 @@ export class NotificationsComponent implements OnInit {
 
   deleteThisNotification(notification) {
     this.notificationsService.deleteNotification(notification._id).subscribe((res) => {
-      this.router.navigate(['/file-info', notification.fileId])
+      // this.router.navigate(['/file-info', notification.fileId])
       this.onClose();
     }, (err) => {
-      console.log("Error deleting file");
+      console.log("Error deleting notigication");
     })
   }
 

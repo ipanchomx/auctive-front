@@ -10,7 +10,8 @@
                 <div class="container">
                     <carousel [slides]="slides"></carousel>
                 </div>
-                <button mat-raised-button [disabled]="userEmail==auction.owner_email || subscribed" (click)="subscribeToAuction()">Subscribe to auction</button>
+                <button mat-raised-button [disabled]="userEmail==auction.owner_email || subscribed"
+                    (click)="subscribeToAuction()">Subscribe to auction</button>
             </div>
 
             <div *ngIf="auction" class="auction-info">
@@ -49,28 +50,47 @@
                     </ng-template>
                 </div>
 
+                <div class="bid-container">
+                    <div class="bidLoading" *ngIf="processingBid; else BidNotProcessing">
+                        <mat-spinner></mat-spinner>
+                    </div>
 
-                <div *ngIf="!finished && (!auction.status || auction.status!='CLOSED') && (!auction.auction_status || auction.auction_status!='CLOSED')" class="bid-container">
-                    <h1 class="winning" *ngIf="auction.current_bidder==userEmail;else userNotWinning">Winning</h1>
-                    <ng-template #userNotWinning>
-                        <div class="current-offer">
-                            <h2>Current offer:</h2>
-                            <p>{{(auction.current_price>0)? '$'+ auction.current_price.toFixed(2) : '-'}}</p>
-                        </div>
-    
-                        <div class="bid-input">
-                            <p class="prefix-icon">$</p>
-                            <div class="bid-input-control">
-                                <input type="number" name="new bid" id="newBid" placeholder="{{(auction.current_price>0)?auction.current_price+1:auction.starting_price}}" [(ngModel)]="newBid" >
-                            </div>
-                            <button mat-raised-button color="accent" [disabled]="userEmail==auction.owner_email || !newBid || newBid < auction.current_price + 1 || newBid < auction.starting_price" (click)="placeBid()">Place bid</button>
-                        </div>
-    
-                        <button mat-raised-button color="primary" [disabled]="userEmail==auction.owner_email">Buy Now for ${{auction.buy_now_price.toFixed(2)}}</button>
+                    <ng-template #BidNotProcessing>
+                        <h1 [class.winning]="auction.bid_winner==userEmail"
+                            *ngIf="finished || auction.status=='CLOSED' || auction.auction_status=='CLOSED'; else activeauction">
+                            {{(auction.bid_winner==userEmail)? 'Auction Won': "Auction won by another user."}}
+                        </h1>
+
+                        <ng-template #activeauction>
+                            <h1 class="winning" *ngIf="auction.current_bidder==userEmail; else userNotWinning">
+                                Winning
+                            </h1>
+                            <ng-template #userNotWinning>
+                                <div class="current-offer">
+                                    <h2>Current offer:</h2>
+                                    <p>{{(auction.current_price>0)? '$'+ auction.current_price.toFixed(2) : '-'}}</p>
+                                </div>
+
+                                <div class="bid-input">
+                                    <p class="prefix-icon">$</p>
+                                    <div class="bid-input-control">
+                                        <input type="number" name="new bid" id="newBid"
+                                            placeholder="{{(auction.current_price>0)?auction.current_price+1:auction.starting_price}}"
+                                            [(ngModel)]="newBid">
+                                    </div>
+                                    <button mat-raised-button color="accent"
+                                        [disabled]="userEmail==auction.owner_email || !newBid || newBid < auction.current_price + 1 || newBid < auction.starting_price"
+                                        (click)="placeBid()">Place bid</button>
+                                </div>
+
+                                <button mat-raised-button color="primary" [disabled]="userEmail==auction.owner_email"
+                                    (click)="buyNow()">Buy Now for ${{auction.buy_now_price.toFixed(2)}}</button>
+                            </ng-template>
+                        </ng-template>
                     </ng-template>
-                    
-                </div>
 
+
+                </div>
                 <div>
                     <h2>Tags:</h2>
                     <mat-chip-list aria-label="Auction tags" selectable="false">
@@ -79,7 +99,6 @@
                         </mat-chip>
                     </mat-chip-list>
                 </div>
-
             </div>
         </div>
     </ng-template>

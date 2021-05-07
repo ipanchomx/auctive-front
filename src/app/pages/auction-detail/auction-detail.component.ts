@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
@@ -23,13 +23,14 @@ export class AuctionDetailComponent implements OnInit {
   diffDays: number;
   newBid: number;
   subscribed: boolean = false;
+  horizontalPosition: MatSnackBarHorizontalPosition = "center";
+  verticalPosition: MatSnackBarVerticalPosition = "top";
+  processingBid: boolean = false;
 
   slides = [];
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private router: Router,
-    private _matDialog: MatDialog,
     private _snackBar: MatSnackBar,
     private _sockets: SocketsService,
     private _auth: AuthService,
@@ -49,13 +50,63 @@ export class AuctionDetailComponent implements OnInit {
     });
 
     this._sockets.on('newBid', (data: any) => {
-      console.log("Receiving new bid");
-      if(data.auctionId == this.auction.auction_id){
-        this.auction.current_price= data.bid;
+      if (data.auctionId == this.auction.auction_id) {
+        this.auction.current_price = data.bid;
+        this.auction.current_bidder = data.current_bidder;
+        this.processingBid = false;
+        let message = "";
+
+        if (data.current_bidder == this.userEmail) {
+          message = "Successful bid";
+        } else {
+          message = "Another user has made a new bid"
+
+        }
+        const snack = this._snackBar.open(message, "Close", {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        })
+        snack._dismissAfter(3000);
       }
     });
 
+    this._sockets.on('unsuccessfulBid', (data: any) => {
+      this.processingBid = false;
+      const snack = this._snackBar.open(`Could not place bid`, "Close", {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      })
+      snack._dismissAfter(3000);
+    });
+
+    this._sockets.on('unsuccessfulBuyNow', (data: any) => {
+      this.processingBid = false;
+      const snack = this._snackBar.open(`Could not buy product`, "Close", {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      })
+      snack._dismissAfter(3000);
+    });
+
     this._sockets.on('buyNow', (data: any) => {
+
+      if (data.auctionId == this.auction.auction_id) {
+        this.processingBid = false;
+        this.auction.auction_status = "CLOSED";
+        this.auction.status = "CLOSED";
+        let message = "";
+        if (data.bid_winner == this.userEmail) {
+          message = "Congratulations. You won the bid.";
+        } else {
+          message = "Another user has paid the buy now price";
+        }
+        const snack = this._snackBar.open(message, "Close", {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        })
+        snack._dismissAfter(3000);
+      }
+
 
     });
 
@@ -89,16 +140,17 @@ export class AuctionDetailComponent implements OnInit {
   }
 
   placeBid() {
-    console.log("Placing bid");
-    this._sockets.emit('newBid', {auctionId:this.auctionId, bid: this.newBid, auctionOwnerEmail:this.auction.owner_email});
+    this.processingBid = true;
+    this._sockets.emit('newBid', { auctionId: this.auctionId, bid: this.newBid, auctionOwnerEmail: this.auction.owner_email });
   }
 
   buyNow() {
-
+    this.processingBid = true;
+    this._sockets.emit('buyNow', { auctionId: this.auctionId, auctionOwnerEmail: this.auction.owner_email });
   }
 
   subscribeToAuction() {
-    this._sockets.emit('subscribeToAuction', {auctionId: this.auctionId});
+    this._sockets.emit('subscribeToAuction', { auctionId: this.auctionId });
     this.subscribed = true;
   }
 
