@@ -22,6 +22,7 @@ export class AuctionDetailComponent implements OnInit {
   finished: boolean;
   diffDays: number;
   newBid: number;
+  subscribed: boolean = false;
 
   slides = [];
 
@@ -48,7 +49,10 @@ export class AuctionDetailComponent implements OnInit {
     });
 
     this._sockets.on('newBid', (data: any) => {
-
+      console.log("Receiving new bid");
+      if(data.auctionId == this.auction.auction_id){
+        this.auction.current_price= data.bid;
+      }
     });
 
     this._sockets.on('buyNow', (data: any) => {
@@ -84,8 +88,9 @@ export class AuctionDetailComponent implements OnInit {
       })
   }
 
-  makeBid() {
-
+  placeBid() {
+    console.log("Placing bid");
+    this._sockets.emit('newBid', {auctionId:this.auctionId, bid: this.newBid, auctionOwnerEmail:this.auction.owner_email});
   }
 
   buyNow() {
@@ -94,6 +99,7 @@ export class AuctionDetailComponent implements OnInit {
 
   subscribeToAuction() {
     this._sockets.emit('subscribeToAuction', {auctionId: this.auctionId});
+    this.subscribed = true;
   }
 
 }
