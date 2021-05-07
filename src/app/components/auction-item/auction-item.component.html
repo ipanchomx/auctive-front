@@ -16,7 +16,8 @@
             </ng-template>
         </ng-template>
 
-        <p *ngIf="winning" class="win">Winning</p>
+        <p *ngIf="winning && (auction.status!='CLOSED' && auction.auction_status!='CLOSED')" class="win">Winning</p>
+        <p *ngIf="winning && (auction.status=='CLOSED' || auction.auction_status=='CLOSED')" class="win">Won</p>
     </div>
 
 </mat-card>

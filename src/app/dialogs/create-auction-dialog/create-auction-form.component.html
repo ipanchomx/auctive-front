@@ -19,7 +19,7 @@
                 style="display: none;" type="file">
 
 
-            <p *ngIf="images.length">{{images.length}} images selected.</p>
+            <p class="num-of-images" *ngIf="images.length">{{images.length}} images selected.</p>
             <mat-form-field appearance="fill" class="titleInput">
                 <mat-label>Title</mat-label>
                 <input matInput autocomplete="off" [(ngModel)]="title" name="product-title">
