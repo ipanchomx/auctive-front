@@ -11,9 +11,9 @@
   <div mat-dialog-content>
       <div *ngFor="let notification of notifications">
         <mat-card (click)="deleteThisNotification(notification)">
-          <p><strong>{{notification.emitterEmail}}</strong></p>
+          <p><strong>{{notification.emitter}}</strong></p>
           <mat-card-subtitle>{{notification.message}}</mat-card-subtitle>
-          <mat-card-content>{{notification.fileName}}</mat-card-content>
+          <mat-card-content>{{notification.auctionTitle}}</mat-card-content>
           <mat-card-subtitle>{{(notification.date | date:'hh:mm - dd/MM/yyyy')}}</mat-card-subtitle>
         </mat-card>
         <mat-divider></mat-divider>

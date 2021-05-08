@@ -1,17 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NotificationsService } from 'src/app/globals/services/notifications.service';
-import { UserService } from 'src/app/globals/services/user.service';
+import { NotificationsService } from 'src/app/global/services/notifications.service';
+import { UserService } from 'src/app/global/services/user.service';
 
 export interface notification {
-  _id: string;
-  date: Date;
-  emitterEmail: string;
-  emitterUserId: string;
-  fileId: string;
-  fileName: string;
-  message: string;
+  "auctionTitle": string,
+  "date": string,
+  "notification_id": string,
+  "emitter": string,
+  "SK": string,
+  "auctionId": string,
+  "message": string,
+  "PK": string
 }
 
 
@@ -26,15 +27,15 @@ export class NotificationsComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsComponent>,
-    private userService: UserService,
     private notificationsService: NotificationsService,
     private router: Router
   ) { }
 
 
   ngOnInit(): void {
-    this.notificationsService.getNotifications().subscribe((notifications: notification[]) => {
-      this.notifications = notifications.reverse();
+    this.notificationsService.getNotifications().subscribe((resp: any) => {
+      console.log(resp);
+      if(resp.success) this.notifications = resp.notifications.reverse();
     })
 
   }
@@ -46,16 +47,19 @@ export class NotificationsComponent implements OnInit {
   deleteAllNotifications() {
     this.notificationsService.deleteAllNotifications()
       .subscribe((res)=>{
+        console.log(res);
         this.notifications = [];
+      }, (err) => {
+        console.log("Error deleting notifications");
       })
   }
 
   deleteThisNotification(notification) {
-    this.notificationsService.deleteNotification(notification._id).subscribe((res) => {
-      this.router.navigate(['/file-info', notification.fileId])
+    this.notificationsService.deleteNotification(notification.notification_id).subscribe((res) => {
+      // this.router.navigate(['/file-info', notification.fileId])
       this.onClose();
     }, (err) => {
-      console.log("Error deleting file");
+      console.log("Error deleting notification");
     })
   }
 
