@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SocketsService } from '../../services/sockets.service';
 import { UserService } from '../../services/user.service';
+import { NotificationsComponent } from 'src/app/dialogs/notifications/notifications.component';
 
 // import { NotificationsComponent } from 'src/app/dialogs/notifications/notifications.component';
 
@@ -68,21 +69,21 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/auctions'], { queryParamsHandling: "merge", queryParams: { q: this.searchQuery } })
   }
 
-  // openNotifications() {
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.minWidth = "300px";
-  //   dialogConfig.minHeight = "50px";
-  //   dialogConfig.maxHeight = "75%";
-  //   dialogConfig.width = "30%";
-  //   dialogConfig.position = { top: '50px', right: '50px' };
-  //   dialogConfig.data = { name: this.name };
+  openNotifications() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = "300px";
+    dialogConfig.minHeight = "50px";
+    dialogConfig.maxHeight = "75%";
+    dialogConfig.width = "30%";
+    dialogConfig.position = { top: '50px', right: '50px' };
+    dialogConfig.data = { name: this.name };
 
-  //   const dialogRef = this._matDialog.open(NotificationsComponent, dialogConfig);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.noSize = 0;
-  //     //delete notifications
-  //   });
+    const dialogRef = this._matDialog.open(NotificationsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.noSize = 0;
+      //delete notifications
+    });
 
-  // }
+  }
 
 }

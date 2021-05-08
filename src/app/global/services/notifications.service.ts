@@ -15,7 +15,7 @@ export class NotificationsService {
       Authorization: this._authService.get()
     });
 
-    const url = `${environment.apiUrl}users/notifications`;
+    const url = `${environment.apiUrl}/user/notifications`;
 
     return this.httpClient.get(url, {
       headers: httpHeaders
@@ -27,7 +27,7 @@ export class NotificationsService {
       Authorization: this._authService.get()
     });
 
-    const url = `${environment.apiUrl}users/notifications/${id}`;
+    const url = `${environment.apiUrl}/user/notifications/${id}`;
 
     return this.httpClient.delete(url, {
       headers: httpHeaders
@@ -39,7 +39,7 @@ export class NotificationsService {
       Authorization: this._authService.get()
     });
 
-    const url = `${environment.apiUrl}users/notifications`;
+    const url = `${environment.apiUrl}/user/notifications`;
 
     return this.httpClient.delete(url, {
       headers: httpHeaders

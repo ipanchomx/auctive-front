@@ -26,6 +26,7 @@ import { CreateAuctionFormComponent } from './dialogs/create-auction-dialog/crea
 import { AuctionDetailComponent } from './pages/auction-detail/auction-detail.component';
 import { Page404Component } from './pages/page404/page404.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { NotificationsComponent } from './dialogs/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     CreateAuctionFormComponent,
     AuctionDetailComponent,
     Page404Component,
-    CarouselComponent
+    CarouselComponent,
+    NotificationsComponent,
+
   ],
   imports: [
     BrowserModule,
