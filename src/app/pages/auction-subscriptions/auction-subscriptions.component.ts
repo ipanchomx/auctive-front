@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { element } from 'protractor';
 import { Auction } from 'src/app/global/models/auction.model';
 import { AuctionsService } from 'src/app/global/services/auctions.service';
 import { AuthService } from 'src/app/global/services/auth.service';
@@ -33,11 +34,12 @@ export class AuctionSubscriptionsComponent implements OnInit {
 
   }
 
-  checkIfUpdate(data) {
-    let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
-
-    if (auctionIdx > 0) {
-      this.getMyAuctionSubscriptions();
+  checkIfUpdate = (data) => {
+    if(this.auctions && this.auctions.length){
+      let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
+      if (auctionIdx != -1) {
+        this.getMyAuctionSubscriptions();
+      }
     }
   }
 
@@ -94,6 +96,9 @@ export class AuctionSubscriptionsComponent implements OnInit {
       .then((auctionsList: any) => {
         this.auctions = auctionsList.auctions || [];
         this.auctions.sort((a, b) => a.end_date > b.end_date ? 1 : -1);
+        this.auctions.forEach((element:Auction)=>{
+          this.socketService.emit('joinAuction', { auctionId: element.auction_id });
+        })
         this.isLoading = false;
       })
       .catch(error => {

@@ -35,14 +35,6 @@ export class MyAuctionsComponent implements OnInit {
     this._sockets.on('auctionClose', this.checkIfUpdate);
 
   }
-
-  checkIfUpdate(data) {
-    let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
-
-    if (auctionIdx > 0) {
-      this.getMyAuctions();
-    }
-  }
   getMyAuctions() {
     this.isLoading = true;
     this.auctionsService.getMyAuctions().then((data: any) => {
@@ -56,6 +48,10 @@ export class MyAuctionsComponent implements OnInit {
         }
         return (aStatus == "OPEN" ? 1 : 0);
       });
+      this.auctions.forEach((element: Auction) => {
+        this._sockets.emit('joinAuction', { auctionId: element.auction_id });
+      });
+
       this.isLoading = false;
       this.errorMessage = "";
     }).catch((err => {
@@ -82,5 +78,14 @@ export class MyAuctionsComponent implements OnInit {
       .subscribe(result => {
         if (result) this.getMyAuctions();
       });
+  }
+
+  checkIfUpdate = (data) => {
+    if(this.auctions && this.auctions.length){
+      let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
+      if (auctionIdx != -1) {
+        this.getMyAuctions();
+      }
+    }
   }
 }
