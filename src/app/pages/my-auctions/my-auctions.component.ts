@@ -4,6 +4,8 @@ import { AuctionsService } from 'src/app/global/services/auctions.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateAuctionFormComponent } from 'src/app/dialogs/create-auction-dialog/create-auction-form.component';
 import { AuthService } from 'src/app/global/services/auth.service';
+import { SocketsService } from 'src/app/global/services/sockets.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-my-auctions',
@@ -20,14 +22,27 @@ export class MyAuctionsComponent implements OnInit {
   constructor(
     private auctionsService: AuctionsService,
     private _matDialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private _sockets: SocketsService
   ) { }
 
   ngOnInit(): void {
     this.getMyAuctions();
     this.currentUser = this.authService.getUserId();
+
+    this._sockets.on('newBid', this.checkIfUpdate);
+    this._sockets.on('buyNow', this.checkIfUpdate);
+    this._sockets.on('auctionClose', this.checkIfUpdate);
+
   }
 
+  checkIfUpdate(data) {
+    let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
+
+    if (auctionIdx > 0) {
+      this.getMyAuctions();
+    }
+  }
   getMyAuctions() {
     this.isLoading = true;
     this.auctionsService.getMyAuctions().then((data: any) => {
@@ -38,7 +53,7 @@ export class MyAuctionsComponent implements OnInit {
 
         if (aStatus == bStatus) {
           return a.end_date > b.end_date ? 1 : -1;
-        } 
+        }
         return (aStatus == "OPEN" ? 1 : 0);
       });
       this.isLoading = false;

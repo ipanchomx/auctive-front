@@ -27,6 +27,18 @@ export class AuctionSubscriptionsComponent implements OnInit {
   ngOnInit(): void {
     this.getMyAuctionSubscriptions();
     this.currentUser = this.authService.getUserId();
+    this.socketService.on('newBid', this.checkIfUpdate);
+    this.socketService.on('buyNow', this.checkIfUpdate);
+    this.socketService.on('auctionClose', this.checkIfUpdate);
+
+  }
+
+  checkIfUpdate(data) {
+    let auctionIdx = this.auctions.findIndex((element) => element.auction_id == data.auctionId);
+
+    if (auctionIdx > 0) {
+      this.getMyAuctionSubscriptions();
+    }
   }
 
   selectAuction(selected: boolean, auction: Auction) {

@@ -5,12 +5,12 @@ import { NotificationsService } from 'src/app/global/services/notifications.serv
 import { UserService } from 'src/app/global/services/user.service';
 
 export interface notification {
-  "auctionTitle": string,
-  "date": string,
-  "notification_id": string,
-  "emitter": string,
+  "auctionTitle"?: string,
+  "date"?: string,
+  "notification_id"?: string,
+  "emitter"?: string,
   "SK": string,
-  "auctionId": string,
+  "auctionId"?: string,
   "message": string,
   "PK": string
 }
@@ -34,7 +34,6 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationsService.getNotifications().subscribe((resp: any) => {
-      console.log(resp);
       if(resp.success) this.notifications = resp.notifications.reverse();
     })
 
@@ -47,20 +46,23 @@ export class NotificationsComponent implements OnInit {
   deleteAllNotifications() {
     this.notificationsService.deleteAllNotifications()
       .subscribe((res)=>{
-        console.log(res);
         this.notifications = [];
       }, (err) => {
         console.log("Error deleting notifications");
       })
   }
 
+  openNotification(notification:notification){
+
+    this.deleteThisNotification(notification);
+    if(notification.notification_id){
+      this.router.navigate(['/auctions', notification.auctionId]);
+    }
+    this.onClose();
+  }
+
   deleteThisNotification(notification) {
-    this.notificationsService.deleteNotification(notification.notification_id).subscribe((res) => {
-      // this.router.navigate(['/file-info', notification.fileId])
-      this.onClose();
-    }, (err) => {
-      console.log("Error deleting notification");
-    })
+    this.notificationsService.deleteNotification(notification.notification_id);
   }
 
 }

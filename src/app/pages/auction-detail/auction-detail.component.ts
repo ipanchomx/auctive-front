@@ -94,6 +94,7 @@ export class AuctionDetailComponent implements OnInit {
         this.processingBid = false;
         this.auction.auction_status = "CLOSED";
         this.auction.status = "CLOSED";
+        this.auction.bid_winner = data.bid_winner
         let message = "";
         if (data.bid_winner == this.userEmail) {
           message = "Congratulations. You won the bid.";
